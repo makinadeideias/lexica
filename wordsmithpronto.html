@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jumble - Sentence Builder</title>
+    <title>Jumble-liar - Sentence Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=Delius&family=Short+Stack&display=swap" rel="stylesheet">
     <style>
         * {
@@ -462,6 +462,83 @@
             z-index: 1000;
         }
         
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #58CC02 0%, #1CB0F6 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .welcome-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 4px solid #FFC800;
+        }
+        
+        .welcome-title {
+            font-size: 2.5rem;
+            color: #58CC02;
+            margin-bottom: 20px;
+            font-family: 'Short Stack', cursive;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+            font-family: 'Delius', cursive;
+        }
+        
+        .welcome-input {
+            padding: 15px 20px;
+            border: 3px solid #FFC800;
+            border-radius: 14px;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 20px;
+            font-family: 'Delius', cursive;
+            text-align: center;
+        }
+        
+        .welcome-button {
+            padding: 15px 30px;
+            background: #FFC800;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 0 #E6BE00;
+            font-family: 'Short Stack', cursive;
+            width: 100%;
+        }
+        
+        .welcome-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #E6BE00;
+        }
+        
+        .welcome-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #E6BE00;
+        }
+        
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -512,21 +589,39 @@
                 font-size: 0.9rem;
                 padding: 12px 16px;
             }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .welcome-content {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcome-screen">
+        <div class="welcome-content">
+            <h1 class="welcome-title">JUMBLE-LIAR</h1>
+            <p class="welcome-subtitle">Build sentences and learn English in a fun way!</p>
+            <input type="text" class="welcome-input" id="welcome-username" placeholder="Enter your name">
+            <button class="welcome-button" id="welcome-start-btn">Start Game</button>
+        </div>
+    </div>
+    
     <canvas id="confetti-canvas"></canvas>
     
     <div class="container">
         <header>
-            <h1>JUMBLE</h1>
+            <h1>JUMBLE-LIAR</h1>
             <p class="tagline">Click words to build sentences!</p>
         </header>
         
         <div class="user-section">
-            <input type="text" id="username" placeholder="Enter your name">
-            <button id="start-btn">Start Game</button>
+            <input type="text" id="username" placeholder="Enter your name" style="display: none;">
+            <button id="start-btn" style="display: none;">Start Game</button>
         </div>
         
         <div class="game-area">
@@ -548,7 +643,7 @@
         </div>
         
         <div class="feedback" id="feedback">
-            Enter your name and click "Start Game" to begin!
+            Welcome to JUMBLE-LIAR! Build sentences by clicking words in the correct order.
         </div>
         
         <div class="score-panel">
@@ -754,6 +849,22 @@
             "rainbow", "butterfly", "diamond", "planet", "comet"
         ];
 
+        // Lista de sons para alternar a cada 200 pontos
+        const milestoneSounds = [
+            "starWars",
+            "icq",
+            "globo",
+            "gotaDagua",
+            "piano",
+            "oldTelephone",
+            "mosquito",
+            "xylophone",
+            "batman",
+            "superman",
+            "bomba",
+            "friends"
+        ];
+
         // Star and medal system
         const getStarsAndMedal = (score) => {
             const stars = Math.floor(score / 500);
@@ -786,6 +897,8 @@
         let ranking = JSON.parse(localStorage.getItem('wordsmithRanking')) || [];
         let streakSoundPlayed = false;
         let playedMilestones = new Set();
+        let lastScoreMilestone = 0;
+        let currentSoundIndex = 0;
 
         // DOM elements
         const wordCloud = document.getElementById('word-cloud');
@@ -804,6 +917,9 @@
         const startBtn = document.getElementById('start-btn');
         const rankingList = document.getElementById('ranking-list');
         const confettiCanvas = document.getElementById('confetti-canvas');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const welcomeUsernameInput = document.getElementById('welcome-username');
+        const welcomeStartBtn = document.getElementById('welcome-start-btn');
 
         // Initialize the game
         function initGame() {
@@ -821,6 +937,8 @@
             usedSentences = [];
             streakSoundPlayed = false;
             playedMilestones.clear();
+            lastScoreMilestone = 0;
+            currentSoundIndex = 0;
             updateScore();
             updateLevel();
             updatePhase();
@@ -933,6 +1051,9 @@
                 
                 showFeedback("Correct! Keep going!", "success");
                 
+                // Play milestone sound every 200 points
+                checkScoreMilestone();
+                
                 // Play streak sound after 5 consecutive correct answers (only once per streak)
                 if (currentStreak === 5 && !streakSoundPlayed) {
                     playStreakSound();
@@ -980,29 +1101,80 @@
             }
         }
 
-        // Check and play special sounds for milestones
-        function checkSpecialSounds() {
-            // First 1000 points - Star Wars sound
-            if (score >= 1000 && !playedMilestones.has('first1000')) {
-                playStarWarsSound();
-                playedMilestones.add('first1000');
-                showFeedback("🌟 Amazing! You reached 1000 points! 🌟", "success");
+        // Check and play sound every 200 points
+        function checkScoreMilestone() {
+            const milestone = Math.floor(score / 200);
+            
+            if (milestone > lastScoreMilestone) {
+                playMilestoneSound();
+                lastScoreMilestone = milestone;
+                
+                // Get sound name for display
+                const soundNames = {
+                    "starWars": "Star Wars",
+                    "icq": "ICQ",
+                    "globo": "Globo",
+                    "gotaDagua": "Gota d'Água",
+                    "piano": "Piano",
+                    "oldTelephone": "Telefone Antigo",
+                    "mosquito": "Mosquito",
+                    "xylophone": "Xilofone",
+                    "batman": "Batman",
+                    "superman": "Superman",
+                    "bomba": "Bomba",
+                    "friends": "Friends"
+                };
+                
+                const currentSoundName = soundNames[milestoneSounds[currentSoundIndex]];
+                showFeedback(`🎉 ${score} pontos! Som: ${currentSoundName} 🎉`, "success");
+            }
+        }
+
+        // Play milestone sound every 200 points
+        function playMilestoneSound() {
+            const soundType = milestoneSounds[currentSoundIndex];
+            
+            switch(soundType) {
+                case "starWars":
+                    playStarWarsSound();
+                    break;
+                case "icq":
+                    playICQSound();
+                    break;
+                case "globo":
+                    playGloboSound();
+                    break;
+                case "gotaDagua":
+                    playGotaDaguaSound();
+                    break;
+                case "piano":
+                    playPianoSound();
+                    break;
+                case "oldTelephone":
+                    playOldTelephoneSound();
+                    break;
+                case "mosquito":
+                    playMosquitoSound();
+                    break;
+                case "xylophone":
+                    playXylophoneSound();
+                    break;
+                case "batman":
+                    playBatmanSound();
+                    break;
+                case "superman":
+                    playSupermanSound();
+                    break;
+                case "bomba":
+                    playBombaSound();
+                    break;
+                case "friends":
+                    playFriendsSound();
+                    break;
             }
             
-            // Multiples of 1500 points - ICQ sound
-            if (score >= 1500 && score % 1500 === 0 && !playedMilestones.has(`icq${score}`)) {
-                playICQSound();
-                playedMilestones.add(`icq${score}`);
-                showFeedback(`📯 ICQ! ${score} points milestone! 📯`, "success");
-            }
-            
-            // Multiples of 5000 points - Special achievement sound
-            if (score >= 5000 && score % 5000 === 0 && !playedMilestones.has(`special${score}`)) {
-                playSpecialAchievementSound();
-                playedMilestones.add(`special${score}`);
-                showFeedback(`🎉 INCREDIBLE! ${score} POINTS! 🎉`, "success");
-                showConfetti();
-            }
+            // Move to next sound for next milestone
+            currentSoundIndex = (currentSoundIndex + 1) % milestoneSounds.length;
         }
 
         // Play ICQ sound (famous "uh-oh" sound)
@@ -1050,6 +1222,273 @@
             
             oscillator.start();
             oscillator.stop(time);
+        }
+
+        // Play Globo sound (similar to the famous jingle)
+        function playGloboSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            
+            // Globo TV jingle approximation
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            const durations = [0.3, 0.3, 0.3, 0.5];
+            
+            let time = audioContext.currentTime;
+            notes.forEach((freq, index) => {
+                oscillator.frequency.setValueAtTime(freq, time);
+                time += durations[index];
+            });
+            
+            oscillator.start();
+            oscillator.stop(time);
+        }
+
+        // Play Gota d'Água sound (water drop)
+        function playGotaDaguaSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.2;
+            
+            // Water drop effect
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.5);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Play Piano sound
+        function playPianoSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            
+            // Simple piano melody
+            const notes = [261.63, 329.63, 392.00, 523.25];
+            const durations = [0.2, 0.2, 0.2, 0.4];
+            
+            let time = audioContext.currentTime;
+            notes.forEach((freq, index) => {
+                oscillator.frequency.setValueAtTime(freq, time);
+                time += durations[index];
+            });
+            
+            oscillator.start();
+            oscillator.stop(time);
+        }
+
+        // Play Old Telephone sound
+        function playOldTelephoneSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            
+            // Old telephone ring approximation
+            for (let i = 0; i < 3; i++) {
+                oscillator.frequency.setValueAtTime(480, audioContext.currentTime + i * 0.5);
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime + i * 0.5 + 0.25);
+            }
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 1.5);
+        }
+
+        // Play Mosquito sound
+        function playMosquitoSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sawtooth';
+            gainNode.gain.value = 0.1;
+            
+            // Mosquito buzzing
+            oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+            oscillator.frequency.setValueAtTime(400, audioContext.currentTime + 0.2);
+            oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.3);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.4);
+        }
+
+        // Play Xylophone sound
+        function playXylophoneSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            
+            // Xylophone-like melody
+            const notes = [523.25, 587.33, 659.25, 698.46, 783.99];
+            const durations = [0.15, 0.15, 0.15, 0.15, 0.3];
+            
+            let time = audioContext.currentTime;
+            notes.forEach((freq, index) => {
+                oscillator.frequency.setValueAtTime(freq, time);
+                time += durations[index];
+            });
+            
+            oscillator.start();
+            oscillator.stop(time);
+        }
+
+        // Play Batman sound (1960s theme)
+        function playBatmanSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'square';
+            gainNode.gain.value = 0.3;
+            
+            // Batman theme approximation
+            const notes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63];
+            const durations = [0.2, 0.2, 0.2, 0.4, 0.2, 0.2];
+            
+            let time = audioContext.currentTime;
+            notes.forEach((freq, index) => {
+                oscillator.frequency.setValueAtTime(freq, time);
+                time += durations[index];
+            });
+            
+            oscillator.start();
+            oscillator.stop(time);
+        }
+
+        // Play Superman sound
+        function playSupermanSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sawtooth';
+            gainNode.gain.value = 0.3;
+            
+            // Superman theme approximation
+            const notes = [392.00, 493.88, 587.33, 783.99, 659.25, 523.25];
+            const durations = [0.3, 0.3, 0.3, 0.5, 0.3, 0.3];
+            
+            let time = audioContext.currentTime;
+            notes.forEach((freq, index) => {
+                oscillator.frequency.setValueAtTime(freq, time);
+                time += durations[index];
+            });
+            
+            oscillator.start();
+            oscillator.stop(time);
+        }
+
+        // Play Bomba sound (explosion)
+        function playBombaSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sawtooth';
+            
+            // Explosion effect
+            oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(20, audioContext.currentTime + 0.5);
+            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Play Friends sound (theme song snippet)
+        function playFriendsSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            
+            // Friends theme approximation
+            const notes = [392.00, 440.00, 493.88, 523.25, 587.33, 659.25];
+            const durations = [0.2, 0.2, 0.2, 0.2, 0.2, 0.4];
+            
+            let time = audioContext.currentTime;
+            notes.forEach((freq, index) => {
+                oscillator.frequency.setValueAtTime(freq, time);
+                time += durations[index];
+            });
+            
+            oscillator.start();
+            oscillator.stop(time);
+        }
+
+        // Check and play special sounds for milestones
+        function checkSpecialSounds() {
+            // First 1000 points - Star Wars sound
+            if (score >= 1000 && !playedMilestones.has('first1000')) {
+                playStarWarsSound();
+                playedMilestones.add('first1000');
+                showFeedback("🌟 Amazing! You reached 1000 points! 🌟", "success");
+            }
+            
+            // Multiples of 1500 points - ICQ sound
+            if (score >= 1500 && score % 1500 === 0 && !playedMilestones.has(`icq${score}`)) {
+                playICQSound();
+                playedMilestones.add(`icq${score}`);
+                showFeedback(`📯 ICQ! ${score} points milestone! 📯`, "success");
+            }
+            
+            // Multiples of 5000 points - Special achievement sound
+            if (score >= 5000 && score % 5000 === 0 && !playedMilestones.has(`special${score}`)) {
+                playSpecialAchievementSound();
+                playedMilestones.add(`special${score}`);
+                showFeedback(`🎉 INCREDIBLE! ${score} POINTS! 🎉`, "success");
+                showConfetti();
+            }
         }
 
         // Play special achievement sound for 5000+ points
@@ -1435,6 +1874,23 @@
             animate();
         }
 
+        // Start game from welcome screen
+        function startFromWelcomeScreen() {
+            username = welcomeUsernameInput.value.trim();
+            if (username) {
+                // Hide welcome screen
+                welcomeScreen.style.opacity = '0';
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                }, 500);
+                
+                // Initialize game
+                initGame();
+            } else {
+                alert("Please enter your name to start the game!");
+            }
+        }
+
         // Event listeners for buttons
         startBtn.addEventListener('click', () => {
             username = usernameInput.value.trim();
@@ -1443,7 +1899,17 @@
             }
         });
 
-        // Allow Enter key to start game
+        // Allow Enter key to start game from welcome screen
+        welcomeUsernameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                startFromWelcomeScreen();
+            }
+        });
+
+        // Start button on welcome screen
+        welcomeStartBtn.addEventListener('click', startFromWelcomeScreen);
+
+        // Allow Enter key to start game from main screen
         usernameInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 username = usernameInput.value.trim();
