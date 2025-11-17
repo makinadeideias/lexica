@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aLEX - English Category Game</title>
+    <title>OneOut - Category Game</title>
     <style>
         * {
             margin: 0;
@@ -181,17 +181,21 @@
         .medals-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
         }
 
         .medal {
-            padding: 8px;
+            padding: 6px;
             border-radius: 8px;
             text-align: center;
-            font-size: 0.8em;
+            font-size: 0.7em;
             font-weight: bold;
             color: white;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .medal-bronze {
@@ -208,6 +212,14 @@
 
         .medal-platinum {
             background: linear-gradient(135deg, #e5e4e2, #b6b6b6);
+        }
+
+        .medal-diamond {
+            background: linear-gradient(135deg, #b9f2ff, #7fffd4);
+        }
+
+        .medal-vibranium {
+            background: linear-gradient(135deg, #2a9d8f, #264653);
         }
 
         .ranking-section {
@@ -556,8 +568,8 @@
     <!-- Login Screen -->
     <div class="login-screen" id="login-screen">
         <div class="login-container">
-            <h1>aLEX</h1>
-            <p class="subtitle">English Category Game</p>
+            <h1>OneOut</h1>
+            <p class="subtitle">Category Game</p>
             <input type="text" class="login-input" id="player-name-input" placeholder="Enter your name" maxlength="20">
             <button class="login-btn" id="start-game-btn">Start Game</button>
         </div>
@@ -600,10 +612,12 @@
 
             <h2>Medals</h2>
             <div class="medals-container">
-                <div class="medal medal-bronze" id="medal-bronze" style="opacity: 0.3;">🥉 Bronze</div>
-                <div class="medal medal-silver" id="medal-silver" style="opacity: 0.3;">🥈 Silver</div>
-                <div class="medal medal-gold" id="medal-gold" style="opacity: 0.3;">🥇 Gold</div>
-                <div class="medal medal-platinum" id="medal-platinum" style="opacity: 0.3;">💎 Platinum</div>
+                <div class="medal medal-bronze" id="medal-bronze" style="opacity: 0.3;">🥉</div>
+                <div class="medal medal-silver" id="medal-silver" style="opacity: 0.3;">🥈</div>
+                <div class="medal medal-gold" id="medal-gold" style="opacity: 0.3;">🥇</div>
+                <div class="medal medal-platinum" id="medal-platinum" style="opacity: 0.3;">💎</div>
+                <div class="medal medal-diamond" id="medal-diamond" style="opacity: 0.3;">💠</div>
+                <div class="medal medal-vibranium" id="medal-vibranium" style="opacity: 0.3;">⚛️</div>
             </div>
 
             <div class="progress-section">
@@ -624,8 +638,8 @@
         <!-- Center - Game Area -->
         <div class="game-area">
             <div id="game-screen">
-                <h1>aLEX</h1>
-                <p class="subtitle">English Category Game</p>
+                <h1>OneOut</h1>
+                <p class="subtitle">Category Game</p>
                 
                 <div class="category-display" id="current-category">Loading...</div>
                 <div class="instructions">Click on the word that belongs to this category:</div>
@@ -659,10 +673,12 @@
                 </div>
 
                 <div class="medals-container" style="margin: 20px 0;">
-                    <div class="medal medal-bronze" id="final-medal-bronze" style="opacity: 0.3;">🥉 Bronze</div>
-                    <div class="medal medal-silver" id="final-medal-silver" style="opacity: 0.3;">🥈 Silver</div>
-                    <div class="medal medal-gold" id="final-medal-gold" style="opacity: 0.3;">🥇 Gold</div>
-                    <div class="medal medal-platinum" id="final-medal-platinum" style="opacity: 0.3;">💎 Platinum</div>
+                    <div class="medal medal-bronze" id="final-medal-bronze" style="opacity: 0.3;">🥉</div>
+                    <div class="medal medal-silver" id="final-medal-silver" style="opacity: 0.3;">🥈</div>
+                    <div class="medal medal-gold" id="final-medal-gold" style="opacity: 0.3;">🥇</div>
+                    <div class="medal medal-platinum" id="final-medal-platinum" style="opacity: 0.3;">💎</div>
+                    <div class="medal medal-diamond" id="final-medal-diamond" style="opacity: 0.3;">💠</div>
+                    <div class="medal medal-vibranium" id="final-medal-vibranium" style="opacity: 0.3;">⚛️</div>
                 </div>
                 
                 <div class="game-controls">
@@ -697,8 +713,31 @@
         </div>
     </div>
 
+    <!-- Audio Elements -->
+    <audio id="levelUpSound1" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound2" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound3" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound4" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-gaming-lock-2851.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound5" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-horn-announce-590.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound6" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-water-splash-1331.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound7" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-old-telephone-ring-1251.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
-        // Categories database
+        // Categories database with new categories
         const categories = {
             "Sports and Physical Activities": (`soccer, basketball, volleyball, tennis, table tennis, baseball, softball, golf, swimming, running, jogging, walking, cycling, mountain biking, boxing, karate, judo, taekwondo, wrestling, gymnastics, surfing, skateboarding, skiing, snowboarding, ice skating, hockey, field hockey, rugby, cricket, badminton, handball, fencing, rowing, sailing, canoeing, kayaking, climbing, hiking, diving, water polo, horse riding, archery, yoga, pilates, dance, aerobics, weightlifting, crossfit, martial arts, triathlon, snorkeling, scuba diving, windsurfing, kitesurfing, paddleboarding, parkour, stretching, cheerleading, roller skating, darts, billiards, bowling, frisbee, hiking trail, mountain climbing, rock climbing, ziplining, camping, trekking, canoe sprint, swimming relay, sprinting, marathon, obstacle race, duathlon, pentathlon, decathlon, trampoline, high jump, long jump, pole vault, shot put, discus throw, javelin throw, bench press, push-ups, sit-ups, squats, fitness training, cardio workout, strength training, yoga pose, meditation, Zumba, ballroom dancing, ballet, hip hop dance, breakdancing, folk dance, jump rope, skipping, tag, capture the flag, hide and seek, kickball, dodgeball, tug of war, sack race, relay games, hopscotch, freeze dance, cycling race, trail running, canoe racing, sailing regatta, roller derby, skating rink, slalom skiing, snowshoeing, curling, ice climbing`).split(',').map(x=>x.trim()),
 
@@ -726,7 +765,14 @@
 
             "Fruits and Vegetables": (`apple, banana, jaboticaba, cagaita, umbu, caja, orange, pear, grape, mango, papaya, pineapple, watermelon, melon, strawberry, raspberry, blueberry, blackberry, cherry, peach, plum, apricot, kiwi, lemon, lime, coconut, avocado, fig, date, pomegranate, guava, passion fruit, lychee, tangerine, grapefruit, cantaloupe, honeydew, starfruit, dragon fruit, jackfruit, persimmon, olive, tomato, cucumber, lettuce, cabbage, spinach, kale, arugula, carrot, beet, radish, turnip, potato, sweet potato, yam, onion, garlic, leek, scallion, celery, zucchini, eggplant, pumpkin, squash, bell pepper, chili pepper, jalapeño, corn, pea, green bean, broad bean, lentil, chickpea, soybean, broccoli, cauliflower, asparagus, artichoke, okra, mushroom, ginger, turmeric, parsley, cilantro, basil, mint, rosemary, thyme, dill, sage, chive`).split(',').map(x=>x.trim()),
 
-            "Animals and Pets": (`dog, cat, hamster, rabbit, guinea pig, mouse, rat, parrot, canary, goldfish, turtle, lizard, snake, frog, toad, horse, pony, donkey, mule, cow, bull, ox, calf, goat, sheep, lamb, pig, boar, chicken, rooster, hen, chick, duck, goose, turkey, pigeon, dove, sparrow, crow, raven, owl, eagle, hawk, falcon, peacock, flamingo, penguin, seagull, parakeet, macaw, swan, ostrich, emu, bat, dolphin, whale, shark, seal, sea lion, walrus, crab, lobster, shrimp, octopus, squid, jellyfish, starfish, coral, clam, oyster, snail, slug, butterfly, moth, bee, wasp, ant, termite, beetle, ladybug, grasshopper, cricket, flea, bird, cow, bug, ant, fish, shark, fly, mosquito, dragonfly, caterpillar, worm, spider, scorpion, chameleon, iguana, crocodile, alligator, kangaroo, koala, panda, bear, lion, tiger, leopard, cheetah, jaguar, elephant, rhino, hippopotamus, giraffe, zebra, camel, bison, buffalo, deer, reindeer, elk, moose, fox, wolf, coyote, raccoon, squirrel, chipmunk, beaver, otter, hedgehog, skunk, possum, armadillo, anteater, sloth, monkey, chimpanzee, gorilla, baboon, orangutan, lemur, parrotfish, clownfish, swordfish, tuna, salmon, trout, carp, eel, piranha, stingray, seahorse, hermit crab, polar bear, sea turtle`).split(',').map(x=>x.trim())
+            "Animals and Pets": (`dog, cat, hamster, rabbit, guinea pig, mouse, rat, parrot, canary, goldfish, turtle, lizard, snake, frog, toad, horse, pony, donkey, mule, cow, bull, ox, calf, goat, sheep, lamb, pig, boar, chicken, rooster, hen, chick, duck, goose, turkey, pigeon, dove, sparrow, crow, raven, owl, eagle, hawk, falcon, peacock, flamingo, penguin, seagull, parakeet, macaw, swan, ostrich, emu, bat, dolphin, whale, shark, seal, sea lion, walrus, crab, lobster, shrimp, octopus, squid, jellyfish, starfish, coral, clam, oyster, snail, slug, butterfly, moth, bee, wasp, ant, termite, beetle, ladybug, grasshopper, cricket, flea, bird, cow, bug, ant, fish, shark, fly, mosquito, dragonfly, caterpillar, worm, spider, scorpion, chameleon, iguana, crocodile, alligator, kangaroo, koala, panda, bear, lion, tiger, leopard, cheetah, jaguar, elephant, rhino, hippopotamus, giraffe, zebra, camel, bison, buffalo, deer, reindeer, elk, moose, fox, wolf, coyote, raccoon, squirrel, chipmunk, beaver, otter, hedgehog, skunk, possum, armadillo, anteater, sloth, monkey, chimpanzee, gorilla, baboon, orangutan, lemur, parrotfish, clownfish, swordfish, tuna, salmon, trout, carp, eel, piranha, stingray, seahorse, hermit crab, polar bear, sea turtle`).split(',').map(x=>x.trim()),
+
+            // New categories
+            "Clothes": (`shirt, pants, dress, shoes, hat, jacket, socks, skirt, t-shirt, jeans, sweater, coat, shorts, blouse, suit, tie, scarf, gloves, boots, sandals, sneakers, hoodie, vest, uniform, pajamas, underwear, bra, panties, swimsuit, bikini, trunks, robe, belt, wallet, purse, backpack, handbag, sunglasses, watch, jewelry, ring, necklace, bracelet, earrings, cufflinks, bowtie, overalls, leggings, cardigan, tank top, flip flops, high heels, loafers, raincoat, winter coat, leather jacket, denim jacket, windbreaker, tracksuit, bathrobe, slippers, apron, costume, wedding dress, tuxedo, uniform, camouflage, kimono, sari, hijab, turban, beanie, cap, fedora, helmet, mittens, earmuffs, stockings, tights, corset, veil, cape, poncho`).split(',').map(x=>x.trim()),
+
+            "Singers": (`Beyoncé, Taylor Swift, Ed Sheeran, Adele, Drake, Rihanna, Justin Bieber, Ariana Grande, The Weeknd, Billie Eilish, Harry Styles, Dua Lipa, Bruno Mars, Lady Gaga, Shakira, Bad Bunny, J Balvin, Rosalía, Anitta, Luis Fonsi, Maluma, Karol G, Blackpink, BTS, Coldplay, Maroon 5, Imagine Dragons, Queen, The Beatles, Elvis Presley, Michael Jackson, Madonna, Whitney Houston, Mariah Carey, Celine Dion, Frank Sinatra, Elton John, David Bowie, Prince, Bob Marley, Bob Dylan, Johnny Cash, Ray Charles, Stevie Wonder, James Brown, Aretha Franklin, Tina Turner, Janet Jackson, Christina Aguilera, Britney Spears, Jennifer Lopez, Marc Anthony, Ricky Martin, Enrique Iglesias, Julio Iglesias, Roberto Carlos, Caetano Veloso, Gilberto Gil, Maria Bethânia, Gal Costa, Chico Buarque, Milton Nascimento, Elis Regina, Tim Maia, Jorge Ben Jor, Raul Seixas, Cazuza, Legião Urbana, Titãs, Paralamas, Skank, Jota Quest, Charlie Brown, Ivete Sangalo, Claudia Leitte, Ludmilla, Pabllo Vittar, Gloria Groove, Liniker`).split(',').map(x=>x.trim()),
+
+            "Superheroes": (`Superman, Batman, Wonder Woman, Spider-Man, Iron Man, Captain America, Thor, Hulk, Black Widow, Flash, Aquaman, Wolverine, Deadpool, Captain Marvel, Black Panther, Doctor Strange, Ant-Man, Wasp, Hawkeye, Green Lantern, Green Arrow, Supergirl, Batgirl, Robin, Nightwing, Catwoman, Harley Quinn, Joker, Lex Luthor, Thanos, Loki, Magneto, Professor X, Jean Grey, Cyclops, Storm, Rogue, Gambit, Beast, Iceman, Human Torch, Invisible Woman, Mr. Fantastic, Thing, Daredevil, Punisher, Blade, Ghost Rider, Hellboy, Spawn, Invincible, Omni-Man, Homelander, Starlight, Queen Maeve, A-Train, The Deep, Black Noir, Translucent, Stormfront, Soldier Boy, Gen V, Shazam, Blue Beetle, Static Shock, Miles Morales, Gwen Stacy, Miguel O'Hara, Peter Parker, Miles Morales, Kamala Khan, Carol Danvers, Monica Rambeau, Jennifer Walters, She-Hulk, Matt Murdock, Frank Castle, Peter Quill, Gamora, Rocket, Groot, Drax, Nebula, Mantis, Yondu, Nick Fury, Maria Hill, Phil Coulson, Peggy Carter, Sharon Carter, Wong, Ancient One, Baron Mordo, Killmonger, Shuri, Okoye, Nakia, M'Baku, Erik Killmonger, Red Skull, Ultron, Kang, Galactus, Doctor Doom, Venom, Carnage, Sandman, Doctor Octopus, Green Goblin, Kingpin, Bullseye, Elektra, Jessica Jones, Luke Cage, Iron Fist, Colleen Wing, Misty Knight, Cloak, Dagger, Moon Knight, Marc Spector, Steven Grant, Jake Lockley, Mr. Knight, Werewolf, Blade, Morbius, Man-Thing, Howard the Duck, Cosmo, Lockjaw, Ms. Marvel, Squirrel Girl, America Chavez, Kate Bishop, Yelena Belova, Red Guardian, Melina, Taskmaster, Baron Zemo, Ulysses Klaue, Mysterio, Vulture, Shocker, Scorpion, Rhino, Lizard, Kraven, Chameleon, Hobgoblin, Demogoblin, Jackal, Hammerhead, Silvermane, Tombstone, Black Cat, Silver Sable, Prowler, Doctor Octopus, Electro, Sandman, Hydro-Man, Molten Man, Beetle, Boomerang, Shocker, Trapster, Stilt-Man, Owl, Purple Man, Kingpin, Bullseye, Elektra, Typhoid Mary, Bushmaster, Cottonmouth, Black Mariah, Shades, Comanche, Diamondback, Steel Serpent, Madame Gao, Nobu, Bakuto, Murakami, Sowande, Gao, Alexandra, Davos, Steel Serpent, Colleen Wing, Misty Knight, Claire Temple, Jeri Hogarth, Karen Page, Foggy Nelson, Malcolm Ducasse, Patricia Walker, Trish Walker, Dorothy Walker, Rebecca, Louise, Wendy, Candace, Oksana, Anjelica, Tatiana, Ana, Elena, Yelena, Alexei, Melina, Dreykov, Taskmaster, Red Guardian, Crimson Dynamo, Titanium Man, Unicorn, Whiplash, Crimson Cowl, Madame Masque, Count Nefaria, Living Laser, Whirlwind, Melter, Radioactive Man, Black Knight, Doctor Druid, Mantis, Swordsman, Hercules, Venus, Marvel Boy, Vision, Scarlet Witch, Quicksilver, Wonder Man, Beast, Angel, Iceman, Marvel Girl, Cyclops, Professor X, Magneto, Mystique, Sabretooth, Toad, Blob, Pyro, Avalanche, Destiny, Emma Frost, Sebastian Shaw, Donald Pierce, Harry Leland, Shinobi Shaw, Cassandra Nova, Deadpool, Cable, Domino, Shatterstar, Boom-Boom, Warpath, Sunspot, Cannonball, Wolfsbane, Karma, Magik, Colossus, Nightcrawler, Shadowcat, Lockheed, Armor, Pixie, Rockslide, Anole, Mercury, X-23, Honey Badger, Gabby, Daken, Genesis, Kid Omega, Quentin Quire, Glob Herman, Broo, Shark-Girl, Doop, Multiple Man, Strong Guy, Wolfsbane, Rictor, Shatterstar, Boom-Boom, Feral, Thornn, Aurora, Northstar, Sasquatch, Shaman, Talisman, Snowbird, Puck, Guardian, Vindicator, Major Mapleleaf, Flex, Deadpool, Cable, Domino, Shatterstar, Boom-Boom, Warpath, Sunspot, Cannonball, Wolfsbane, Karma, Magik, Colossus, Nightcrawler, Shadowcat, Lockheed, Armor, Pixie, Rockslide, Anole, Mercury, X-23, Honey Badger, Gabby, Daken, Genesis, Kid Omega, Quentin Quire, Glob Herman, Broo, Shark-Girl, Doop, Multiple Man, Strong Guy, Wolfsbane, Rictor, Shatterstar, Boom-Boom, Feral, Thornn, Aurora, Northstar, Sasquatch, Shaman, Talisman, Snowbird, Puck, Guardian, Vindicator, Major Mapleleaf, Flex`).split(',').map(x=>x.trim())
         };
 
         // Game state
@@ -741,15 +787,18 @@
             bronze: false,
             silver: false,
             gold: false,
-            platinum: false
+            platinum: false,
+            diamond: false,
+            vibranium: false
         };
         let gameActive = true;
         let categoriesPlayed = new Set();
         let autoNextTimer = null;
         let currentPlayer = null;
+        let currentSoundIndex = 0;
 
         // Ranking system
-        let dailyRanking = JSON.parse(localStorage.getItem('aLEX_ranking')) || [];
+        let dailyRanking = JSON.parse(localStorage.getItem('OneOut_ranking')) || [];
 
         // DOM elements
         const loginScreen = document.getElementById('login-screen');
@@ -792,10 +841,25 @@
         const medalSilver = document.getElementById('medal-silver');
         const medalGold = document.getElementById('medal-gold');
         const medalPlatinum = document.getElementById('medal-platinum');
+        const medalDiamond = document.getElementById('medal-diamond');
+        const medalVibranium = document.getElementById('medal-vibranium');
         const finalMedalBronze = document.getElementById('final-medal-bronze');
         const finalMedalSilver = document.getElementById('final-medal-silver');
         const finalMedalGold = document.getElementById('final-medal-gold');
         const finalMedalPlatinum = document.getElementById('final-medal-platinum');
+        const finalMedalDiamond = document.getElementById('final-medal-diamond');
+        const finalMedalVibranium = document.getElementById('final-medal-vibranium');
+
+        // Audio elements
+        const levelUpSounds = [
+            document.getElementById('levelUpSound1'),
+            document.getElementById('levelUpSound2'),
+            document.getElementById('levelUpSound3'),
+            document.getElementById('levelUpSound4'),
+            document.getElementById('levelUpSound5'),
+            document.getElementById('levelUpSound6'),
+            document.getElementById('levelUpSound7')
+        ];
 
         // Initialize login
         startGameBtn.addEventListener('click', startGame);
@@ -846,6 +910,16 @@
             return Math.random().toString(36).substr(2, 8).toUpperCase();
         }
 
+        // Play level up sound
+        function playLevelUpSound() {
+            const sound = levelUpSounds[currentSoundIndex];
+            sound.currentTime = 0;
+            sound.play().catch(e => console.log('Audio play failed:', e));
+            
+            // Rotate to next sound
+            currentSoundIndex = (currentSoundIndex + 1) % levelUpSounds.length;
+        }
+
         // Update words list in footer
         function updateWordsList() {
             // Get all words from all categories
@@ -888,9 +962,10 @@
             bestStreak = 0;
             level = 1;
             levelProgress = 0;
-            medals = { bronze: false, silver: false, gold: false, platinum: false };
+            medals = { bronze: false, silver: false, gold: false, platinum: false, diamond: false, vibranium: false };
             categoriesPlayed = new Set();
             gameActive = true;
+            currentSoundIndex = 0;
             updateScore();
             updateLevel();
             updateMedals();
@@ -1057,6 +1132,9 @@
             currentLevelDisplay.textContent = level;
             levelDisplay.classList.add('level-up');
             
+            // Play level up sound
+            playLevelUpSound();
+            
             // Add level up bonus points
             const levelBonus = level * 25;
             score += levelBonus;
@@ -1102,11 +1180,29 @@
                 setTimeout(() => medalPlatinum.style.transform = 'scale(1)', 300);
             }
 
+            // Diamond: Reach level 12
+            if (level >= 12 && !medals.diamond) {
+                medals.diamond = true;
+                medalDiamond.style.opacity = '1';
+                medalDiamond.style.transform = 'scale(1.2)';
+                setTimeout(() => medalDiamond.style.transform = 'scale(1)', 300);
+            }
+
+            // Vibranium: Reach level 16
+            if (level >= 16 && !medals.vibranium) {
+                medals.vibranium = true;
+                medalVibranium.style.opacity = '1';
+                medalVibranium.style.transform = 'scale(1.2)';
+                setTimeout(() => medalVibranium.style.transform = 'scale(1)', 300);
+            }
+
             // Update final medals display
             finalMedalBronze.style.opacity = medals.bronze ? '1' : '0.3';
             finalMedalSilver.style.opacity = medals.silver ? '1' : '0.3';
             finalMedalGold.style.opacity = medals.gold ? '1' : '0.3';
             finalMedalPlatinum.style.opacity = medals.platinum ? '1' : '0.3';
+            finalMedalDiamond.style.opacity = medals.diamond ? '1' : '0.3';
+            finalMedalVibranium.style.opacity = medals.vibranium ? '1' : '0.3';
         }
 
         // Start automatic next question timer
@@ -1194,7 +1290,7 @@
             dailyRanking = dailyRanking.slice(-100);
 
             // Save to localStorage
-            localStorage.setItem('aLEX_ranking', JSON.stringify(dailyRanking));
+            localStorage.setItem('OneOut_ranking', JSON.stringify(dailyRanking));
 
             updateRanking();
         }
