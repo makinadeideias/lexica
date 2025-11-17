@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JUMBLE-LIAR - Sentence Builder</title>
+    <title>Wordsmith - Sentence Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=Delius&family=Short+Stack&display=swap" rel="stylesheet">
     <style>
         * {
@@ -604,7 +604,7 @@
     <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcome-screen">
         <div class="welcome-content">
-            <h1 class="welcome-title">JUMBLE-LIAR</h1>
+            <h1 class="welcome-title">WORDSMITH</h1>
             <p class="welcome-subtitle">Build sentences and learn English in a fun way!</p>
             <input type="text" class="welcome-input" id="welcome-username" placeholder="Enter your name">
             <button class="welcome-button" id="welcome-start-btn">Start Game</button>
@@ -615,7 +615,7 @@
     
     <div class="container">
         <header>
-            <h1>JUMBLE-LIAR</h1>
+            <h1>WORDSMITH</h1>
             <p class="tagline">Click words to build sentences!</p>
         </header>
         
@@ -643,7 +643,7 @@
         </div>
         
         <div class="feedback" id="feedback">
-            Welcome to JUMBLE-LIAR! Build sentences by clicking words in the correct order.
+            Welcome to Wordsmith! Build sentences by clicking words in the correct order.
         </div>
         
         <div class="score-panel">
@@ -705,139 +705,139 @@
     </div>
 
     <script>
-        // Sentences database organized by phase - ALL A1 LEVEL with odd words
+        // Sentences database organized by phase - ALL SIMPLE PRESENT
         const sentencesByPhase = {
             1: [
-                "I eat an apple every day",
-                "She reads a book quietly",
-                "We play soccer outside",
-                "He drinks water slowly",
-                "They watch TV together",
-                "You sing well today",
-                "It runs fast always",
-                "I see birds flying",
-                "She writes letters carefully",
-                "We learn English quickly"
+                "I play soccer every weekend",
+                "She reads books in the evening",
+                "We eat dinner at seven o'clock",
+                "He works in an office",
+                "They watch movies on Fridays",
+                "You study English every day",
+                "It sleeps on the sofa",
+                "I drink coffee in the morning",
+                "She writes in her journal",
+                "We walk in the park"
             ],
             2: [
-                "I am eating an apple now",
-                "She is reading a book currently",
-                "We are playing soccer today",
-                "He is drinking water now",
-                "They are watching TV tonight",
-                "You are singing well now",
-                "It is running fast today",
-                "I am seeing birds flying",
-                "She is writing letters now",
-                "We are learning English today"
+                "My brother plays basketball",
+                "Her sister teaches mathematics",
+                "Our friends swim in the pool",
+                "His father drives a car",
+                "Their mother cooks delicious food",
+                "Your cousin sings in a choir",
+                "My dog runs in the garden",
+                "Her cat sleeps all day",
+                "Our teacher explains the lessons",
+                "Their baby cries when hungry"
             ],
             3: [
-                "I like red apples always",
-                "She reads interesting books daily",
-                "We play in the park often",
-                "He drinks cold water sometimes",
-                "They watch funny movies weekly",
-                "You sing beautiful songs well",
-                "It runs very fast always",
-                "I see small birds outside",
-                "She writes long letters carefully",
-                "We learn new words quickly"
+                "I like chocolate ice cream",
+                "She loves romantic movies",
+                "We enjoy hiking in mountains",
+                "He prefers tea over coffee",
+                "They hate loud noises",
+                "You want a new bicycle",
+                "It needs fresh water",
+                "I know the answer",
+                "She understands the problem",
+                "We believe in teamwork"
             ],
             4: [
-                "I am eating a big red apple",
-                "She is reading an interesting book",
-                "We are playing soccer in the park",
-                "He is drinking cold fresh water",
-                "They are watching a funny movie",
-                "You are singing a beautiful song",
-                "It is running very fast today",
-                "I am seeing small yellow birds",
-                "She is writing a long letter",
-                "We are learning new English words"
+                "The children play in the yard",
+                "The man reads the newspaper",
+                "My friend watches comedy shows",
+                "The boy drinks orange juice",
+                "The woman listens to music",
+                "Your sister dances beautifully",
+                "The dog barks at strangers",
+                "The birds fly in the sky",
+                "The student answers questions",
+                "The class learns new words"
             ],
             5: [
-                "My brother plays basketball every day",
-                "Her sister reads books in the library",
-                "Our friends watch movies on weekends",
-                "His father drinks coffee in the morning",
-                "Their mother cooks delicious food daily",
-                "Your cousin sings in a band often",
-                "My dog runs in the big garden",
-                "Her cat sleeps on the soft bed",
-                "Our teacher explains the lesson well",
-                "Their baby cries when hungry always"
+                "I always eat breakfast",
+                "She usually reads before bed",
+                "We often visit our grandparents",
+                "He sometimes plays guitar",
+                "They never arrive late",
+                "You often help your friends",
+                "It always sleeps here",
+                "I sometimes forget names",
+                "She always remembers birthdays",
+                "We usually walk to school"
             ],
             6: [
-                "My brother is playing basketball now",
-                "Her sister is reading in the library",
-                "Our friends are watching a movie",
-                "His father is drinking hot coffee",
-                "Their mother is cooking dinner",
-                "Your cousin is singing right now",
-                "My dog is running in the garden",
-                "Her cat is sleeping peacefully",
-                "Our teacher is explaining grammar",
-                "Their baby is crying loudly"
+                "My family eats together",
+                "Her team wins games",
+                "Our class studies hard",
+                "His company makes computers",
+                "Their group meets weekly",
+                "Your band plays rock music",
+                "My plant grows quickly",
+                "Her phone rings often",
+                "Our car needs gasoline",
+                "Their house looks beautiful"
             ],
             7: [
-                "I always eat breakfast at seven",
-                "She usually reads before sleeping",
-                "We often play after school",
-                "He sometimes drinks tea instead",
-                "They never watch horror movies",
-                "You often sing in the shower",
-                "It always runs to the door",
-                "I sometimes see my friends",
-                "She always writes in her diary",
-                "We usually learn vocabulary"
+                "I have a red bicycle",
+                "She has long black hair",
+                "We have three cats",
+                "He has a new job",
+                "They have a big garden",
+                "You have many friends",
+                "It has soft fur",
+                "I need more time",
+                "She wants a promotion",
+                "We like this game"
             ],
             8: [
-                "I am currently eating my lunch",
-                "She is always reading something",
-                "We are usually playing outside",
-                "He is sometimes drinking juice",
-                "They are never watching that show",
-                "You are often singing happily",
-                "It is always running around",
-                "I am sometimes seeing them",
-                "She is always writing stories",
-                "We are usually learning quickly"
+                "The sun rises in the east",
+                "The earth moves around the sun",
+                "Water boils at 100 degrees",
+                "Birds fly south in winter",
+                "Plants need sunlight",
+                "Fish live in water",
+                "The moon shines at night",
+                "Rivers flow to the sea",
+                "Leaves fall in autumn",
+                "Snow melts in spring"
             ],
             9: [
-                "The happy children play in the sunny park",
-                "The tall man reads the newspaper daily",
-                "My best friend watches comedy shows",
-                "The young boy drinks orange juice",
-                "The old woman watches birds carefully",
-                "Your beautiful sister sings professionally",
-                "The small dog runs excitedly",
-                "The colorful birds fly high",
-                "The smart student writes perfectly",
-                "The enthusiastic class learns rapidly"
+                "I speak Spanish and English",
+                "She plays piano very well",
+                "We live in a small town",
+                "He works from home",
+                "They travel every summer",
+                "You learn quickly",
+                "It runs very fast",
+                "I think about my future",
+                "She feels happy today",
+                "We hope for good weather"
             ],
             10: [
-                "The happy children are playing in the park",
-                "The tall man is reading the newspaper",
-                "My best friend is watching a show",
-                "The young boy is drinking juice",
-                "The old woman is watching birds",
-                "Your beautiful sister is singing now",
-                "The small dog is running around",
-                "The colorful birds are flying high",
-                "The smart student is writing notes",
-                "The enthusiastic class is learning"
+                "My father fixes cars",
+                "Her mother bakes cakes",
+                "Our neighbor grows vegetables",
+                "His uncle builds houses",
+                "Their aunt paints pictures",
+                "Your brother repairs computers",
+                "My sister designs clothes",
+                "Her friend takes photographs",
+                "Our cousin sells furniture",
+                "Their grandfather tells stories"
             ],
             11: [
-                "Every morning I eat a healthy breakfast",
-                "Usually she reads interesting story books",
-                "Often we play football with our friends",
-                "Sometimes he drinks warm milk at night",
-                "Never they watch television after ten",
-                "Always you sing beautifully in concerts",
-                "Every day it runs around the big garden",
-                "Sometimes I see beautiful rainbows outside",
-                "Usually she writes long emails to family",
-                "Often we learn difficult English grammar"
+                "I practice yoga every morning",
+                "She meditates for ten minutes",
+                "We recycle paper and plastic",
+                "He volunteers at the hospital",
+                "They donate to charity",
+                "You exercise at the gym",
+                "It purrs when happy",
+                "I dream about traveling",
+                "She plans her schedule",
+                "We organize our workspace"
             ]
         };
 
@@ -849,7 +849,7 @@
             "rainbow", "butterfly", "diamond", "planet", "comet"
         ];
 
-        // Lista de sons para alternar a cada 200 pontos
+        // Lista de sons para tocar aleatoriamente a cada 250 pontos
         const milestoneSounds = [
             "starWars",
             "icq",
@@ -898,7 +898,6 @@
         let streakSoundPlayed = false;
         let playedMilestones = new Set();
         let lastScoreMilestone = 0;
-        let currentSoundIndex = 0;
 
         // DOM elements
         const wordCloud = document.getElementById('word-cloud');
@@ -938,7 +937,6 @@
             streakSoundPlayed = false;
             playedMilestones.clear();
             lastScoreMilestone = 0;
-            currentSoundIndex = 0;
             updateScore();
             updateLevel();
             updatePhase();
@@ -1051,7 +1049,7 @@
                 
                 showFeedback("Correct! Keep going!", "success");
                 
-                // Play milestone sound every 200 points
+                // Play milestone sound every 250 points
                 checkScoreMilestone();
                 
                 // Play streak sound after 5 consecutive correct answers (only once per streak)
@@ -1101,12 +1099,12 @@
             }
         }
 
-        // Check and play sound every 200 points
+        // Check and play sound every 250 points
         function checkScoreMilestone() {
-            const milestone = Math.floor(score / 200);
+            const milestone = Math.floor(score / 250);
             
             if (milestone > lastScoreMilestone) {
-                playMilestoneSound();
+                playRandomMilestoneSound();
                 lastScoreMilestone = milestone;
                 
                 // Get sound name for display
@@ -1125,14 +1123,16 @@
                     "friends": "Friends"
                 };
                 
-                const currentSoundName = soundNames[milestoneSounds[currentSoundIndex]];
+                const randomSound = milestoneSounds[Math.floor(Math.random() * milestoneSounds.length)];
+                const currentSoundName = soundNames[randomSound];
                 showFeedback(`🎉 ${score} pontos! Som: ${currentSoundName} 🎉`, "success");
             }
         }
 
-        // Play milestone sound every 200 points
-        function playMilestoneSound() {
-            const soundType = milestoneSounds[currentSoundIndex];
+        // Play random milestone sound every 250 points
+        function playRandomMilestoneSound() {
+            const randomIndex = Math.floor(Math.random() * milestoneSounds.length);
+            const soundType = milestoneSounds[randomIndex];
             
             switch(soundType) {
                 case "starWars":
@@ -1172,9 +1172,6 @@
                     playFriendsSound();
                     break;
             }
-            
-            // Move to next sound for next milestone
-            currentSoundIndex = (currentSoundIndex + 1) % milestoneSounds.length;
         }
 
         // Play ICQ sound (famous "uh-oh" sound)
