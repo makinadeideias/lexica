@@ -1,0 +1,348 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.tela {
+    display: none;
+    flex: 1;
+}
+
+.tela.ativa {
+    display: block;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.btn-principal, .btn-secundario {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+.btn-principal {
+    background: #4CAF50;
+    color: white;
+}
+
+.btn-principal:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+
+.btn-secundario {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secundario:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Tela do Jogo */
+.game-header {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.game-content {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.dica-container, .palavra-container, .tentativa-container {
+    margin-bottom: 25px;
+}
+
+.dica-container h3, .palavra-container h3 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.palavra-display {
+    font-size: 2em;
+    letter-spacing: 8px;
+    font-weight: bold;
+    color: #333;
+    margin: 15px 0;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.letra {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 0 4px;
+    text-align: center;
+    line-height: 40px;
+    border-bottom: 3px solid #667eea;
+    font-weight: bold;
+}
+
+.letra.revelada {
+    color: #4CAF50;
+    border-bottom-color: #4CAF50;
+}
+
+.info {
+    color: #666;
+    font-style: italic;
+}
+
+.tentativa-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tentativa-container label {
+    font-weight: bold;
+    color: #333;
+}
+
+#input-tentativa {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1em;
+    text-align: center;
+    text-transform: lowercase;
+}
+
+#input-tentativa:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.feedback {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.feedback.correto {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.feedback.erro {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.feedback.dica {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.historico {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.historico h4 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.tentativa-item {
+    padding: 8px;
+    margin: 5px 0;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #6c757d;
+}
+
+.tentativa-item.erro {
+    border-left-color: #dc3545;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Tela de Resultados */
+.resultado-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.estatisticas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-value {
+    color: #667eea;
+    font-weight: bold;
+}
+
+.lista-palavras {
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 15px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.palavra-item {
+    padding: 8px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 5px;
+    border-left: 4px solid #4CAF50;
+}
+
+.result-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+footer {
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+    opacity: 0.8;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .estatisticas {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .palavra-display {
+        font-size: 1.5em;
+        letter-spacing: 4px;
+    }
+    
+    .game-controls, .result-controls {
+        flex-direction: column;
+    }
+}
+
+/* Animações */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}

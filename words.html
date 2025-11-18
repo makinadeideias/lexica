@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Adivinhação Interativo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Jogo de Adivinhação Interativo</h1>
+            <p>Tente adivinhar a palavra baseada na dica!</p>
+        </header>
+
+        <main>
+            <!-- Tela de Início -->
+            <div id="tela-inicio" class="tela ativa">
+                <div class="card">
+                    <h2>Bem-vindo!</h2>
+                    <p>Adivinhe a palavra baseada na dica fornecida.</p>
+                    <p>Se errar, receberá letras reveladas como ajuda!</p>
+                    <button id="btn-comecar" class="btn-principal">Começar Jogo</button>
+                </div>
+            </div>
+
+            <!-- Tela do Jogo -->
+            <div id="tela-jogo" class="tela">
+                <div class="game-header">
+                    <div class="stats">
+                        <span>Pontuação: <span id="pontuacao">0</span></span>
+                        <span>Palavras: <span id="palavras-acertadas">0</span>/<span id="total-palavras">0</span></span>
+                    </div>
+                </div>
+
+                <div class="game-content">
+                    <div class="dica-container">
+                        <h3>📝 Dica:</h3>
+                        <p id="dica-texto"></p>
+                    </div>
+
+                    <div class="palavra-container">
+                        <h3>🔤 Palavra:</h3>
+                        <div id="palavra-display" class="palavra-display"></div>
+                        <p class="info">A palavra tem <span id="tamanho-palavra">0</span> letras</p>
+                    </div>
+
+                    <div class="tentativa-container">
+                        <label for="input-tentativa">💭 Sua tentativa:</label>
+                        <input type="text" id="input-tentativa" placeholder="Digite aqui...">
+                        <button id="btn-tentar" class="btn-principal">Tentar</button>
+                    </div>
+
+                    <div id="feedback" class="feedback"></div>
+
+                    <div class="historico">
+                        <h4>📊 Tentativas nesta palavra:</h4>
+                        <div id="historico-tentativas"></div>
+                    </div>
+                </div>
+
+                <div class="game-controls">
+                    <button id="btn-proxima" class="btn-secundario" style="display: none;">Próxima Palavra</button>
+                    <button id="btn-reiniciar" class="btn-secundario">Reiniciar Jogo</button>
+                </div>
+            </div>
+
+            <!-- Tela de Resultados -->
+            <div id="tela-resultados" class="tela">
+                <div class="card resultado-card">
+                    <h2>🏁 Resultado Final</h2>
+                    
+                    <div class="estatisticas">
+                        <div class="stat-item">
+                            <span class="stat-label">Palavras Adivinhadas:</span>
+                            <span class="stat-value" id="result-palavras">0/0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Pontuação Final:</span>
+                            <span class="stat-value" id="result-pontuacao">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Acertos de Primeira:</span>
+                            <span class="stat-value" id="result-primeira">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Eficiência:</span>
+                            <span class="stat-value" id="result-eficiencia">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="palavras-list">
+                        <h4>📝 Palavras Resolvidas:</h4>
+                        <div id="lista-palavras" class="lista-palavras"></div>
+                    </div>
+
+                    <div class="result-controls">
+                        <button id="btn-jogar-novamente" class="btn-principal">Jogar Novamente</button>
+                        <button id="btn-compartilhar" class="btn-secundario">Compartilhar</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Desenvolvido com ❤️ - Jogo de Adivinhação</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
