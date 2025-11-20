@@ -1565,6 +1565,10 @@
             // Verificar se temos exatamente 4 opções
             if (allOptions.length !== 4) {
                 console.warn(`Pergunta "${question.name}" não tem 4 opções:`, allOptions);
+                // Se não tiver 4 opções, preencher com opções genéricas
+                while (allOptions.length < 4) {
+                    allOptions.push("Opção não disponível");
+                }
             }
             
             return shuffleArray(allOptions);
