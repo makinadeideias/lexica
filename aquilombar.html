@@ -737,7 +737,7 @@
         // Citações antirracistas famosas
         const antiRacistQuotes = [
             {
-                text: "Ninguém nasce odiando outra pessoa pela cor de sua peau, por sua origem ou ainda por sua religião. Para odiar, as pessoas precisam aprender, e se podem aprender a odiar, podem ser ensinadas a amar.",
+                text: "Ninguém nasce odiando outra pessoa pela cor de sua pele, por sua origem ou ainda por sua religião. Para odiar, as pessoas precisam aprender, e se podem aprender a odiar, podem ser ensinadas a amar.",
                 author: "Nelson Mandela"
             },
             {
@@ -761,14 +761,22 @@
         // Dados do quiz - personalidades negras e palavras africanas
         const quizData = [
             // Fase 1: Personalidades Históricas
-           
+            {
+                name: "Luiz Gama",
+                correctAnswer: "Jornalista, escritor e advogado autodidata que libertou mais de 500 escravizados",
+                wrongAnswers: [
+                    "Primeiro presidente negro do Brasil Imperial",
+                    "Líder da Revolta dos Malês em Salvador",
+                    "Fundador do Quilombo dos Palmares"
+                ]
+            },
             {
                 name: "Dandara dos Palmares",
                 correctAnswer: "Guerreira e estrategista na resistência contra a escravidão no Quilombo dos Palmares",
                 wrongAnswers: [
                     "Primeira rainha do Congo no Brasil",
                     "Líder da Revolta da Chibata na Marinha",
-                    "Fundadora principal do Candomblé no Brasil"
+                    "Fundadora do Candomblé no Brasil"
                 ]
             },
             {
@@ -777,7 +785,7 @@
                 wrongAnswers: [
                     "Primeiro rei africano no Brasil",
                     "Líder da Revolta dos Malês",
-                    "Fundador e líder da Capoeira Angola"
+                    "Fundador da Capoeira Angola"
                 ]
             },
             {
@@ -786,7 +794,7 @@
                 wrongAnswers: [
                     "Primeira sacerdotisa do Candomblé",
                     "Líder da Revolta dos Búzios",
-                    "Fundadora da cidade de Salvador"
+                    "Fundadora de Salvador"
                 ]
             },
             {
@@ -795,7 +803,7 @@
                 wrongAnswers: [
                     "Primeira deputada negra do Brasil",
                     "Líder do movimento abolicionista",
-                    "Escritora e fundadora do jornal O Mulato"
+                    "Fundadora do jornal O Mulato"
                 ]
             },
             {
@@ -1456,6 +1464,7 @@
         let gameFinished = false;
         let timerInterval = null;
         let correctAnswersInPhase = 0;
+        let currentQuizData = [];
         const POINTS_CORRECT = 13;
         const POINTS_WRONG = -3;
         const QUESTIONS_PER_PHASE = 10;
@@ -1488,6 +1497,34 @@
             oscillator.stop(audioContext.currentTime + 0.5);
         }
 
+        // Embaralhar array (algoritmo Fisher-Yates melhorado)
+        function shuffleArray(array) {
+            // Usar um seed baseado no timestamp para garantir aleatoriedade
+            const seed = Date.now();
+            let currentIndex = array.length;
+            let temporaryValue, randomIndex;
+
+            // Enquanto ainda houver elementos para embaralhar
+            while (currentIndex !== 0) {
+                // Pegar um elemento restante
+                randomIndex = Math.floor((Math.sin(seed + currentIndex) * 10000) % currentIndex);
+                currentIndex -= 1;
+
+                // E trocar com o elemento atual
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+
+        // Embaralhar opções de uma pergunta
+        function shuffleQuestionOptions(question) {
+            const allOptions = [...question.wrongAnswers, question.correctAnswer];
+            return shuffleArray(allOptions);
+        }
+
         // Inicializar o jogo
         function initGame() {
             currentQuestionIndex = 0;
@@ -1495,6 +1532,11 @@
             score = 0;
             correctAnswersInPhase = 0;
             gameFinished = false;
+            
+            // Criar uma cópia do quizData e embaralhar
+            currentQuizData = [...quizData];
+            shuffleArray(currentQuizData);
+            
             updateScore();
             updatePhaseIndicator();
             showQuestion();
@@ -1506,14 +1548,11 @@
             
             // Mostrar elementos do jogo
             document.querySelector('.game-area').style.display = 'block';
-            
-            // Embaralhar perguntas
-            shuffleArray(quizData);
         }
 
         // Mostrar a pergunta atual
         function showQuestion() {
-            const currentQuestion = quizData[currentQuestionIndex];
+            const currentQuestion = currentQuizData[currentQuestionIndex];
             
             // Adicionar categoria se existir
             const categoryText = currentQuestion.category ? ` (${currentQuestion.category})` : '';
@@ -1536,8 +1575,7 @@
             timerBar.style.width = '0%';
             
             // Criar array com todas as opções e embaralhar
-            const allOptions = [...currentQuestion.wrongAnswers, currentQuestion.correctAnswer];
-            shuffleArray(allOptions);
+            const allOptions = shuffleQuestionOptions(currentQuestion);
             
             // Adicionar opções ao DOM
             allOptions.forEach((option, index) => {
@@ -1583,7 +1621,7 @@
         function checkAnswer() {
             if (!selectedOption) return;
             
-            const currentQuestion = quizData[currentQuestionIndex];
+            const currentQuestion = currentQuizData[currentQuestionIndex];
             const isCorrect = selectedOption === currentQuestion.correctAnswer;
             
             // Marcar opções corretas/incorretas
@@ -1646,7 +1684,7 @@
             currentQuestionIndex++;
             
             // Verificar se terminou o jogo
-            if (currentQuestionIndex >= quizData.length) {
+            if (currentQuestionIndex >= currentQuizData.length) {
                 endGame();
                 return;
             }
@@ -1666,7 +1704,7 @@
             // Mostrar citação antirracista
             const randomQuote = antiRacistQuotes[Math.floor(Math.random() * antiRacistQuotes.length)];
             
-            const maxScore = quizData.length * POINTS_CORRECT;
+            const maxScore = currentQuizData.length * POINTS_CORRECT;
             const percentage = Math.round((score / maxScore) * 100);
             let message = '';
             let medal = '';
@@ -1799,17 +1837,8 @@
 
         // Atualizar barra de progresso
         function updateProgressBar() {
-            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            const progress = ((currentQuestionIndex + 1) / currentQuizData.length) * 100;
             progressBarElement.style.width = `${progress}%`;
-        }
-
-        // Embaralhar array (algoritmo Fisher-Yates)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
         }
 
         // Sistema de abas
