@@ -5,36 +5,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneOut - Category Game</title>
     <style>
-        /* ... (mantenha todo o CSS existente) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
 
-        /* Novos estilos para o ranking permanente */
-        .ranking-tabs {
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
         }
 
-        .ranking-tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            background: none;
-            border: none;
-            cursor: pointer;
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            gap: 15px;
+            max-width: 1200px;
+            width: 100%;
+            min-height: 70vh;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .words-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+            max-height: 60px;
+            overflow-y: auto;
+            padding: 5px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .word-tag {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
             font-weight: 500;
+        }
+
+        .credits {
+            text-align: center;
             color: #666;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
+            font-size: 0.8em;
+            font-weight: 500;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
         }
 
-        .ranking-tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-area {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ranking-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .player-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .player-name {
             font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 5px;
         }
 
-        .ranking-tab:hover {
-            color: #5a6fd8;
+        .player-id {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .score-panel {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .score-label {
+            color: #666;
+        }
+
+        .score-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .level-display {
+            background: linear-gradient(135deg, #ffd700, #ff6b00);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .medals-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .medal {
+            padding: 6px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.7em;
+            font-weight: bold;
+            color: white;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .medal-bronze {
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+        }
+
+        .medal-silver {
+            background: linear-gradient(135deg, #c0c0c0, #808080);
+        }
+
+        .medal-gold {
+            background: linear-gradient(135deg, #ffd700, #ff6b00);
+        }
+
+        .medal-platinum {
+            background: linear-gradient(135deg, #e5e4e2, #b6b6b6);
+        }
+
+        .medal-diamond {
+            background: linear-gradient(135deg, #b9f2ff, #7fffd4);
+        }
+
+        .medal-vibranium {
+            background: linear-gradient(135deg, #2a9d8f, #264653);
         }
 
         .ranking-section {
@@ -84,17 +269,316 @@
             text-align: right;
         }
 
+        .current-player {
+            background: #f0f7ff;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .login-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .login-input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .login-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .category-display {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: white;
+            margin: 15px 0;
+            min-height: 50px;
+            background: #667eea;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .instructions {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .option-btn {
+            background: #edf2f7;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #2d3748;
+            font-weight: 500;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .option-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .option-btn.correct {
+            background: #48bb78;
+            color: white;
+            border-color: #38a169;
+        }
+
+        .option-btn.incorrect {
+            background: #f56565;
+            color: white;
+            border-color: #e53e3e;
+        }
+
+        .feedback {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin: 15px 0;
+            min-height: 50px;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .correct-feedback {
+            background: #f0fff4;
+            color: #48bb78;
+            border: 2px solid #48bb78;
+        }
+
+        .incorrect-feedback {
+            background: #fff5f5;
+            color: #f56565;
+            border: 2px solid #f56565;
+        }
+
+        .bonus-indicator {
+            font-size: 0.9em;
+            color: #d69e2e;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .jedi-bonus {
+            color: #ff6b00;
+            font-size: 1.1em;
+            animation: jediGlow 1s ease-in-out;
+        }
+
+        @keyframes jediGlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #ffd700; }
+            100% { transform: scale(1); }
+        }
+
+        .progress-section {
+            margin: 15px 0;
+        }
+
+        .level-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .game-over {
+            display: none;
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 2.5em;
+            color: #667eea;
+            margin: 15px 0;
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .restart-btn, .quit-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        .restart-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .restart-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .quit-btn {
+            background: #f56565;
+            color: white;
+        }
+
+        .quit-btn:hover {
+            background: #e53e3e;
+        }
+
+        .auto-next-timer {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .level-up {
+            animation: levelUp 0.5s ease-in-out;
+        }
+
+        @keyframes levelUp {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .quit-game-btn {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .quit-game-btn:hover {
+            background: #e53e3e;
+        }
+
+        /* Novos estilos para o ranking permanente */
+        .ranking-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .ranking-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .ranking-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: bold;
+        }
+
+        .ranking-tab:hover {
+            color: #5a6fd8;
+        }
+
         .ranking-level {
             min-width: 30px;
             text-align: center;
             color: #666;
             font-size: 0.75em;
-        }
-
-        .current-player {
-            background: #f0f7ff;
-            border-radius: 5px;
-            padding: 5px;
         }
 
         .ranking-stats {
@@ -127,18 +611,263 @@
             font-weight: bold;
             padding: 0 5px;
         }
+
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 250px 1fr 250px;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
+                gap: 10px;
+            }
+            
+            .sidebar {
+                order: 1;
+            }
+            
+            .game-area {
+                order: 2;
+            }
+            
+            .ranking-sidebar {
+                order: 3;
+            }
+
+            .words-list {
+                max-height: 80px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- ... (mantenha todo o HTML existente) ... -->
+    <!-- Login Screen -->
+    <div class="login-screen" id="login-screen">
+        <div class="login-container">
+            <h1>OneOut</h1>
+            <p class="subtitle">Category Game</p>
+            <input type="text" class="login-input" id="player-name-input" placeholder="Enter your name" maxlength="20">
+            <button class="login-btn" id="start-game-btn">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Main Game -->
+    <div class="app-container" id="main-game" style="display: none;">
+        <!-- Left Sidebar - Player Info -->
+        <div class="sidebar">
+            <h2>Player Info</h2>
+            <div class="player-info">
+                <div class="player-name" id="player-name-display">Player</div>
+                <div class="player-id" id="player-id-display">ID: --</div>
+            </div>
+
+            <div class="score-panel">
+                <div class="score-item">
+                    <span class="score-label">Level:</span>
+                    <span class="score-value" id="level-display">1</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Score:</span>
+                    <span class="score-value" id="score">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Streak:</span>
+                    <span class="score-value" id="streak">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Correct:</span>
+                    <span class="score-value" id="correct-count">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Level Progress:</span>
+                    <span class="score-value" id="level-progress">0/8</span>
+                </div>
+            </div>
+
+            <div class="level-display">Level <span id="current-level">1</span></div>
+
+            <h2>Medals</h2>
+            <div class="medals-container">
+                <div class="medal medal-bronze" id="medal-bronze" style="opacity: 0.3;">🥉</div>
+                <div class="medal medal-silver" id="medal-silver" style="opacity: 0.3;">🥈</div>
+                <div class="medal medal-gold" id="medal-gold" style="opacity: 0.3;">🥇</div>
+                <div class="medal medal-platinum" id="medal-platinum" style="opacity: 0.3;">💎</div>
+                <div class="medal medal-diamond" id="medal-diamond" style="opacity: 0.3;">💠</div>
+                <div class="medal medal-vibranium" id="medal-vibranium" style="opacity: 0.3;">⚛️</div>
+            </div>
+
+            <div class="progress-section">
+                <div class="level-progress">
+                    <span>Level Progress</span>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
+
+            <button class="quit-game-btn" id="quit-game-btn">
+                🏳️ Give Up
+            </button>
+        </div>
+
+        <!-- Center - Game Area -->
+        <div class="game-area">
+            <div id="game-screen">
+                <h1>OneOut</h1>
+                <p class="subtitle">Category Game</p>
+                
+                <div class="category-display" id="current-category">Loading...</div>
+                <div class="instructions">Click on the word that belongs to this category:</div>
+                
+                <div class="options-container" id="options-container">
+                    <!-- Options will be generated here by JavaScript -->
+                </div>
+                
+                <div class="feedback" id="feedback"></div>
+                
+                <button class="next-btn" id="next-btn" style="display: none;">
+                    Next Question →
+                </button>
+                <div class="auto-next-timer" id="auto-next-timer" style="display: none;">
+                    Next question in <span id="countdown">1</span> second...
+                </div>
+            </div>
+            
+            <div class="game-over" id="game-over">
+                <h1>🎉 Game Completed!</h1>
+                <p class="subtitle">You mastered the categories!</p>
+                
+                <div class="final-score" id="final-score">0</div>
+                <p>total points</p>
+                
+                <div style="margin: 15px 0; font-size: 1em; text-align: center;">
+                    Level Reached: <span id="final-level">1</span><br>
+                    Correct answers: <span id="final-correct">0</span><br>
+                    Best streak: <span id="final-streak">0</span> 🔥<br>
+                    Medals Earned: <span id="final-medals">0</span>
+                </div>
+
+                <div class="medals-container" style="margin: 20px 0;">
+                    <div class="medal medal-bronze" id="final-medal-bronze" style="opacity: 0.3;">🥉</div>
+                    <div class="medal medal-silver" id="final-medal-silver" style="opacity: 0.3;">🥈</div>
+                    <div class="medal medal-gold" id="final-medal-gold" style="opacity: 0.3;">🥇</div>
+                    <div class="medal medal-platinum" id="final-medal-platinum" style="opacity: 0.3;">💎</div>
+                    <div class="medal medal-diamond" id="final-medal-diamond" style="opacity: 0.3;">💠</div>
+                    <div class="medal medal-vibranium" id="final-medal-vibranium" style="opacity: 0.3;">⚛️</div>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="restart-btn" id="restart-btn">
+                        Play Again
+                    </button>
+                    <button class="quit-btn" id="main-quit-btn">
+                        Quit Game
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar - Ranking -->
+        <div class="ranking-sidebar">
+            <h2>🏆 Daily Ranking</h2>
+            <div class="ranking-section">
+                <div class="ranking-tabs">
+                    <button class="ranking-tab active" data-tab="daily">🏆 Daily</button>
+                    <button class="ranking-tab" data-tab="permanent">📊 All Time</button>
+                </div>
+                <div class="ranking-list" id="ranking-list">
+                    <!-- Ranking will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer" id="footer" style="display: none;">
+        <div class="words-list" id="words-list">
+            <!-- Words will be populated by JavaScript -->
+        </div>
+        <div class="credits">
+            Desenvolvido por Makina de Ideias
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="levelUpSound1" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound2" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound3" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound4" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-gaming-lock-2851.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound5" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-horn-announce-590.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound6" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-water-splash-1331.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound7" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-old-telephone-ring-1251.mp3" type="audio/mpeg">
+    </audio>
+    <!-- NOVO: Som Jedi para bonus de 5 acertos -->
+    <audio id="jediBonusSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-spell-389.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        // Categories database (mantenha o existente)
+        // Categories database with NEW categories added
         const categories = {
-            // ... (mantenha todas as categorias existentes) ...
+            "Sports and Physical Activities": (`soccer, basketball, volleyball, tennis, table tennis, baseball, softball, golf, swimming, running, jogging, walking, cycling, mountain biking, boxing, karate, judo, taekwondo, wrestling, gymnastics, surfing, skateboarding, skiing, snowboarding, ice skating, hockey, field hockey, rugby, cricket, badminton, handball, fencing, rowing, sailing, canoeing, kayaking, climbing, hiking, diving, water polo, horse riding, archery, yoga, pilates, dance, aerobics, weightlifting, crossfit, martial arts, triathlon, snorkeling, scuba diving, windsurfing, kitesurfing, paddleboarding, parkour, stretching, cheerleading, roller skating, darts, billiards, bowling, frisbee, hiking trail, mountain climbing, rock climbing, ziplining, camping, trekking, canoe sprint, swimming relay, sprinting, marathon, obstacle race, duathlon, pentathlon, decathlon, trampoline, high jump, long jump, pole vault, shot put, discus throw, javelin throw, bench press, push-ups, sit-ups, squats, fitness training, cardio workout, strength training, yoga pose, meditation, Zumba, ballroom dancing, ballet, hip hop dance, breakdancing, folk dance, jump rope, skipping, tag, capture the flag, hide and seek, kickball, dodgeball, tug of war, sack race, relay games, hopscotch, freeze dance, cycling race, trail running, canoe racing, sailing regatta, roller derby, skating rink, slalom skiing, snowshoeing, curling, ice climbing`).split(',').map(x=>x.trim()),
+
+            "School Supplies and Material": (`pencil, pen, tablet, eraser, ruler, sharpener, notebook, book, backpack, glue, scissors, paper, marker, crayon, highlighter, pencil case, chalk, blackboard, whiteboard, desk, chair, stapler, paper clip, binder clip, tape, brush, paint, folder, sheet, card, compass, calculator, dictionary, sticky notes, glue stick, binder, sketchbook, pen drive, file, cover, ink, divider, push pin, clipboard, drawing pad, notepad, poster, textbook, workbook, assignment, exam, quiz, test, notebook paper, colored pencil, gel pen, fountain pen, correction fluid, correction tape, protractor, set square, ruler set, geometry box, smartboard, projector, screen, laser pointer, flashcard, label, portfolio, envelope, scissors, pen holder, desk lamp, eraser cap, pencil sharpener, drawing book, art paper,  paper, glue bottle, stapler remover, eraser block, whiteboard marker, dry erase marker, permanent marker, brush pen, sticky label, binder divider, plastic folder, transparent sheet, report cover, document file, puncher, clip holder, sticky tape, masking tape, double-sided tape, geometry compass, protractor ruler, triangle ruler, ink bottle, correction pen, colored paper, chalk box, smart pen, digital notebook, tablet, keyboard, mouse, monitor, projector screen, headset,  laminator, book cover, book mark, paperweight, pencil grip, writing pad, test paper, homework sheet, notebook divider, attendance sheet, grade book`).split(',').map(x=>x.trim()),
+
+            "Transportation": (`car, bus, truck, van, motorcycle, bicycle, scooter, skateboard, train, subway, tram, metro, driver, lane, road, street, street sign, monorail, airplane, helicopter, jet, glider, hot air balloon, boat, ship, ferry, yacht, canoe, kayak, sailboat, cruise ship, submarine, hovercraft, taxi, cab, minibus, pickup truck, ambulance, fire truck, police car, tow truck, delivery truck, garbage truck, mail truck, tractor, bulldozer, excavator, crane, forklift, trolley, cable car, funicular, caravan, camper, motorhome, limousine, convertible, sports car, sedan, hatchback, station wagon, jeep, electric car, hybrid car, fuel truck, tanker, snowmobile, golf cart, go-kart, segway, hoverboard, jet ski, speedboat, fishing boat, cargo ship, container ship, oil tanker, rowboat, raft, dinghy, paddleboat, gondola, ferryboat, catamaran, tricycle, unicycle, horse, donkey cart, camel, carriage, wagon, sleigh, sledge, motorbike, delivery bike, skateboard, horse backriding,rickshaw, tuk-tuk, bus stop, train station, airport, helipad, port, harbor, dock, pier, bridge, tunnel, highway, road, street, lane, crosswalk, traffic light, signpost, gas station, toll booth, rest stop, parking lot, car wash, repair shop, garage, roundabout, overpass, underpass, railway, runway, boarding gate, luggage cart, ticket, seatbelt, steering wheel, engine, tire, wheel, horn, headlight, rearview mirror, windshield, gear, brake, accelerator, dashboard, airbag, fuel pump`).split(',').map(x=>x.trim()),
+
+            "Food and Drinks": (`bread, rice, beans, meat, chicken, fish, egg, cheese, milk, butter, yogurt, cream, oil, sugar, salt, pepper, garlic, onion, tomato, lettuce, carrot, potato, corn, cucumber, cabbage, spinach, broccoli, cauliflower, pumpkin, peas, lentils, chickpeas, pasta, spaghetti, macaroni, pizza, hamburger, hot dog, sandwich, salad, soup, steak, sausage, bacon, ham, turkey, shrimp, crab, lobster, oyster, sushi, omelet, toast, pancake, waffle, cereal, oatmeal, porridge, honey, jam, jelly, peanut butter, chocolate, candy, cookie, biscuit, cake, pie, donut, muffin, brownie, ice cream, pudding, fruit salad, juice, water, soda, coffee, tea, milkshake, smoothie, lemonade, beer, wine, cocktail, champagne, hot chocolate, cocoa, espresso, cappuccino, green tea, jaboticaba, iced tea, sparkling water, mineral water, coconut water, energy drink, sports drink, tomato sauce, ketchup, mustard, mayonnaise, soy sauce, barbecue sauce, chili sauce, vinegar, salad dressing, french fries, mashed potatoes, roasted chicken, grilled fish, noodles, fried rice, lasagna, stew, curry, taco, burrito, nachos, guacamole, kebab, falafel, hummus, pita bread, croissant, baguette, apple pie, chocolate cake, carrot cake, yogurt parfait, popcorn, pretzel, chips`).split(',').map(x=>x.trim()),
+
+            "Technology and Gadgets": (`computer, laptop, tablet, smartphone, cellphone, desktop, monitor, keyboard, mouse, touchpad, webcam, printer, scanner, projector, microphone, speaker, headphones, earphones, smart watch, camera, video camera, drone, USB drive, hard drive, SSD, memory card, charger, battery, cable, adapter, router, modem, wifi, bluetooth, screen, display, internet, web, gps, phone, headphone, tv, radio, smart tv, cellphone, smart phone, mobile phone, stylus, joystick, gamepad, console, controller, VR headset, smart glasses, power bank, selfie stick, tripod, graphics card, motherboard, processor, cpu, gpu, ram, power supply, fan, cooling system, operating system, software, app, browser, website, link, password, email, file, folder, cloud, data, storage, download, upload, backup, update, network, server, database, code, program, antivirus, firewall, robot, ai, algorithm, chatbot, printer ink, 3d printer, fingerprint sensor, face recognition, qr code, gps, satellite, smartwatch, iot, router, touchscreen, processor, graphics card`).split(',').map(x=>x.trim()),
+
+            "Toys and Games": (`ball, cards, doll, teddy bear, tablet, videogame, dice, action figure, puzzle, board game, card game, dominoes, chess, checkers, marbles, yo-yo, kite, toy car, toy truck, toy train, toy plane, toy boat, toy robot, building blocks, lego, play dough, clay, jump rope, hula hoop, spinning top, slingshot, frisbee, scooter, skateboard, roller skates, tricycle, bicycle, water gun, bubble blower, puppet, stuffed animal, car track, race car, remote control car, magic set, costume, mask, toy kitchen, cash register, dollhouse, stroller toy, toy sword, shield, toy drum, xylophone, keyboard toy, flute, harmonica, tambourine, toy piano, karaoke microphone, video game`).split(',').map(x=>x.trim()),
+
+            "Colors and Shapes": (`red, blue, yellow, green, orange, purple, pink, black, white, gray, brown, beige, silver, gold, turquoise, cyan, magenta, navy, olive, maroon, violet, indigo, lime, teal, coral, peach, mint, ivory, lavender, cream, bronze, chocolate, plum, mustard, rust, emerald, sapphire, ruby, aqua, lilac, tan, khaki, charcoal, sky blue, forest green, sea green, baby blue, pale pink, hot pink, neon green, light gray, dark gray, pastel yellow, bright red, burgundy, denim blue, copper, metallic, transparent, opaque, glossy, dotted, striped, solid, pastel, primary, secondary, tertiary, cube, sphere, cone, cylinder, pyramid, circle, triangle, square, rectangle, oval, diamond, star, heart, cross`).split(',').map(x=>x.trim()),
+
+            "Parts of the Body": (`head, hair, forehead, face, eye, eyebrow, eyelash, eyelid, nose, nostril, mouth, lip, tooth, teeth, tongue, chin, cheek, jaw, ear, feet, teeth, earlobe, neck, throat, shoulder, arm, elbow, wrist, hand, palm, finger, thumb, index finger, middle finger, ring finger, little finger, nail, knuckle, chest, back, spine, waist, hip, stomach, belly, navel, abdomen, rib, heart, lung, liver, kidney, bladder, intestines, brain, skull, bone, muscle, joint, skin, vein, artery, blood, nerve, leg, thigh, knee, shin, calf, ankle, foot, heel, sole, toe`).split(',').map(x=>x.trim()),
+
+            "Famous Cities": (`New York, Los Angeles, Sao paulo, Belo Horizonte, Contagem, Betim, Sabará, Ouro Preto, Mariana, Chicago, Houston, Miami, San Francisco, Boston, Washington, Seattle, Las Vegas, Los Angeles, Washington, Boston, Atlanta, Dallas, Philadelphia, Orlando, Denver, Detroit, San Diego, Phoenix, Austin, Portland, London, Manchester, Liverpool, Birmingham, Edinburgh, Glasgow, Paris, Marseille, Lyon, Nice, Toulouse, Berlin, Munich, Frankfurt, Hamburg, Cologne, Stuttgart, Rome, Milan, Venice, Florence, Naples, Madrid, Barcelona, Valencia, Seville, Lisbon, Porto, Amsterdam, Rotterdam, The Hague, Brussels, Antwerp, Zurich, Geneva, Vienna, Prague, Budapest, Warsaw, Krakow, Oslo, Stockholm, Copenhagen, Helsinki, Reykjavik, Moscow, Saint Petersburg, Istanbul, Athens, Havana, Cairo, Johannesburg, Cape Town, Nairobi, Lagos, Casablanca, Tunis, Marrakech, Dubai, Abu Dhabi, Doha, Riyadh, Jeddah, Jerusalem, Tel Aviv, New Delhi, Mumbai, Bangalore, Kolkata, Chennai, Singapore, Kuala Lumpur, Bangkok, Jakarta, Manila, Beijing, Shanghai, Guangzhou, Belo Horizonte, Contagem, Betim, Sabara, Hong Kong, Taipei, Tokyo, Osaka, Kyoto, Seoul, Busan, Sydney, Melbourne, Brisbane, Auckland, Wellington, Toronto, Vancouver, Montreal, Ottawa, Mexico City, Guadalajara, Monterrey, Lima, Santiago, Buenos Aires, São Paulo, Rio de Janeiro, Brasília, Bogotá, Medellín, Quito, Caracas, Havana, Santo Domingo, San Juan, Panama City, San José, Kingston, Port of Spain, Montego Bay, Kuwait City, Muscat, Manama, Karachi, Islamabad, Dhaka, Colombo, Kathmandu`).split(',').map(x=>x.trim()),
+
+            "Professions and Occupations": (`teacher, student, professor, principal, doctor, nurse, dentist, surgeon, pharmacist, veterinarian, psychologist, therapist, engineer, architect, mechanic, electrician, plumber, carpenter, builder, mason, painter, welder, driver, pilot, flight attendant, sailor, captain, firefighter, police officer, detective, security guard, soldier, lawyer, judge, secretary, receptionist, accountant, banker, cashier, economist, manager, director, CEO, supervisor, consultant, analyst, programmer, software developer, web designer, data scientist, IT technician, system administrator, graphic designer, illustrator, animator, photographer, videographer, filmmaker, journalist, reporter, editor, writer, author, poet, translator, interpreter, librarian, researcher, scientist, biologist, chemist, physicist, mathematician, statistician, teacher assistant, tutor, coach, trainer, athlete, dancer, singer, musician, composer, actor, actress, model, painter, sculptor, fashion designer, tailor, hairdresser, barber, beautician, makeup artist, chef, cook, baker, waiter, waitress, bartender, butcher, fishmonger, farmer, gardener, florist, janitor, cleaner, housekeeper, delivery driver, courier, postman, shop assistant, salesperson, real estate agent, insurance agent, travel agent, tour guide, hotel manager, concierge, flight controller, bus driver, taxi driver, truck driver, train conductor, construction worker, crane operator, miner, factory worker, warehouse worker, technician, influencer, youtuber, AI specialist, mechanic assistant, security officer, lifeguard, babysitter, nanny, caregiver, social worker, volunteer, politician, ambassador, diplomat, president, governor, mayor, priest, monk, nun`).split(',').map(x=>x.trim()),
+
+            "Nationalities": (`American, Brazilian, Argentinian, Chilean, Peruvian, Colombian, Venezuelan, Uruguayan, Paraguayan, Bolivian, Mexican, Canadian, Guatemalan, Costa Rican, Panamanian, Cuban, Dominican, Puerto Rican, Haitian, Jamaican, Trinidadian, Bahamian, English, British, Scottish, Welsh, Irish, French, Spanish, Portuguese, Italian, German, Dutch, Belgian, Swiss, Austrian, Danish, Norwegian, Swedish, Finnish, Icelandic, Polish, Czech, Slovak, Hungarian, Romanian, Bulgarian, Greek, Turkish, Russian, Ukrainian, Chinese, Japanese, Korean, Taiwanese, Mongolian, Filipino, Vietnamese, Thai, Malaysian, Singaporean, Indonesian, Indian, Pakistani, Bangladeshi, Sri Lankan, Nepali, Bhutanese, Maldivian, Saudi, Emirati, Qatari, Kuwaiti, Omani, Yemeni, Palestinian, Jordanian, Lebanese, Syrian, Israeli, Palestinian, Egyptian, Moroccan, Algerian, Tunisian, Libyan, Sudanese, Ethiopian, Somali, Kenyan, Ugandan, Tanzanian, Rwandan, Congolese, Zambian, Zimbabwean, Mozambican, Angolan, Namibian, Botswanan, South African, Malagasy, Mauritian, Australian, New Zealander, Cuban, Fijian, Samoan, Tongan, Papuan, Micronesian, Tahitian, Hawaiian`).split(',').map(x=>x.trim()),
+
+            "Countries": (`Afghanistan, Albania, Algeria, Andorra, Angola, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belgium, Belize, Benin, Bhutan, Bolivia, Bosnia and Herzegovina, Botswana, Brazil, Brunei, Bulgaria, Burkina Faso, Burundi, Cambodia, Cameroon, Canada, Cape Verde, Central African Republic, Chad, Chile, China, Colombia, Comoros, Congo, Costa Rica, Cuba, Croatia, Cuba, Cyprus, Czech Republic, Denmark, Djibouti, Dominica, Dominican Republic, East Timor, Ecuador, Egypt, El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini, Ethiopia, Fiji, Finland, France, Gabon, Gambia, Georgia, Germany, Ghana, Greece, Grenada, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Italy, Ivory Coast, Jamaica, Japan, Jordan, Kazakhstan, Kenya, Kiribati, Kuwait, Kyrgyzstan, Laos, Latvia, Lebanon, Lesotho, Liberia, Libya, Liechtenstein, Lithuania, Luxembourg, Madagascar, Malawi, Malaysia, Maldives, Mali, Malta, Mauritania, Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Morocco, Mozambique, Myanmar, Namibia, Nauru, Nepal, Netherlands, New Zealand, Nicaragua, Niger, Nigeria, North Korea, North Macedonia, Norway, Oman, Pakistan, Palau, Panama, Papua New Guinea, Paraguay, Palestine, Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia, Rwanda, Saint Lucia, Saint Kitts and Nevis, Saint Vincent and the Grenadines, Samoa, San Marino, Saudi Arabia, Senegal, Serbia, Seychelles, Sierra Leone, Singapore, Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, South Korea, South Sudan, Spain, Sri Lanka, Sudan, Suriname, Sweden, Switzerland, Syria, Taiwan, Tajikistan, Tanzania, Thailand, Togo, Tonga, Trinidad and Tobago, Tunisia, Turkey, Turkmenistan, Tuvalu, Uganda, Ukraine, United Arab Emirates, United Kingdom, United States, Uruguay, Uzbekistan, Vanuatu, Vatican City, Venezuela, Vietnam, Yemen, Zambia, Zimbabwe`).split(',').map(x=>x.trim()),
+
+            "Fruits and Vegetables": (`apple, banana, jaboticaba, cagaita, umbu, caja, orange, pear, grape, mango, papaya, pineapple, watermelon, melon, strawberry, raspberry, blueberry, blackberry, cherry, peach, plum, apricot, kiwi, lemon, lime, coconut, avocado, fig, date, pomegranate, guava, passion fruit, lychee, tangerine, grapefruit, cantaloupe, honeydew, starfruit, dragon fruit, jackfruit, persimmon, olive, tomato, cucumber, lettuce, cabbage, spinach, kale, arugula, carrot, beet, radish, turnip, potato, sweet potato, yam, onion, garlic, leek, scallion, celery, zucchini, eggplant, pumpkin, squash, bell pepper, chili pepper, jalapeño, corn, pea, green bean, broad bean, lentil, chickpea, soybean, broccoli, cauliflower, asparagus, artichoke, okra, mushroom, ginger, turmeric, parsley, cilantro, basil, mint, rosemary, thyme, dill, sage, chive`).split(',').map(x=>x.trim()),
+
+            "Animals and Pets": (`dog, cat, hamster, rabbit, guinea pig, mouse, rat, parrot, canary, goldfish, turtle, lizard, snake, frog, toad, horse, pony, donkey, mule, cow, bull, ox, calf, goat, sheep, lamb, pig, boar, chicken, rooster, hen, chick, duck, goose, turkey, pigeon, dove, sparrow, crow, raven, owl, eagle, hawk, falcon, peacock, flamingo, penguin, seagull, parakeet, macaw, swan, ostrich, emu, bat, dolphin, whale, shark, seal, sea lion, walrus, crab, lobster, shrimp, octopus, squid, jellyfish, starfish, coral, clam, oyster, snail, slug, butterfly, moth, bee, wasp, ant, termite, beetle, ladybug, grasshopper, cricket, flea, bird, cow, bug, ant, fish, shark, fly, mosquito, dragonfly, caterpillar, worm, spider, scorpion, chameleon, iguana, crocodile, alligator, kangaroo, koala, panda, bear, lion, tiger, leopard, cheetah, jaguar, elephant, rhino, hippopotamus, giraffe, zebra, camel, bison, buffalo, deer, reindeer, elk, moose, fox, wolf, coyote, raccoon, squirrel, chipmunk, beaver, otter, hedgehog, skunk, possum, armadillo, anteater, sloth, monkey, chimpanzee, gorilla, baboon, orangutan, lemur, parrotfish, clownfish, swordfish, tuna, salmon, trout, carp, eel, piranha, stingray, seahorse, hermit crab, polar bear, sea turtle`).split(',').map(x=>x.trim()),
+
+            "Clothes": (`shirt, pants, dress, shoes, hat, jacket, socks, skirt, t-shirt, jeans, sweater, coat, shorts, blouse, suit, tie, scarf, gloves, boots, sandals, sneakers, hoodie, vest, uniform, pajamas, underwear, bra, panties, swimsuit, bikini, trunks, robe, belt, wallet, purse, backpack, handbag, sunglasses, watch, jewelry, ring, necklace, bracelet, earrings, cufflinks, bowtie, overalls, leggings, cardigan, tank top, flip flops, high heels, loafers, raincoat, winter coat, leather jacket, denim jacket, windbreaker, tracksuit, bathrobe, slippers, apron, costume, wedding dress, tuxedo, uniform, camouflage, kimono, sari, hijab, turban, beanie, cap, fedora, helmet, mittens, earmuffs, stockings, tights, corset, veil, cape, poncho`).split(',').map(x=>x.trim()),
+
+            "Singers": (`Beyoncé, Taylor Swift, Ed Sheeran, Adele, Drake, Rihanna, Justin Bieber, Ariana Grande, The Weeknd, Billie Eilish, Harry Styles, Dua Lipa, Bruno Mars, Lady Gaga, Shakira, Bad Bunny, J Balvin, Rosalía, Anitta, Luis Fonsi, Maluma, Karol G, Blackpink, BTS, Coldplay, Maroon 5, Imagine Dragons, Queen, The Beatles, Elvis Presley, Michael Jackson, Madonna, Whitney Houston, Mariah Carey, Celine Dion, Frank Sinatra, Elton John, David Bowie, Prince, Bob Marley, Bob Dylan, Johnny Cash, Ray Charles, Stevie Wonder, James Brown, Aretha Franklin, Tina Turner, Janet Jackson, Christina Aguilera, Britney Spears, Jennifer Lopez, Marc Anthony, Ricky Martin, Enrique Iglesias, Julio Iglesias, Roberto Carlos, Caetano Veloso, Gilberto Gil, Maria Bethânia, Gal Costa, Chico Buarque, Milton Nascimento, Elis Regina, Tim Maia, Jorge Ben Jor, Raul Seixas, Cazuza, Legião Urbana, Titãs, Paralamas, Skank, Jota Quest, Charlie Brown, Ivete Sangalo, Claudia Leitte, Ludmilla, Pabllo Vittar, Gloria Groove, Liniker`).split(',').map(x=>x.trim()),
+
+            "Superheroes": (`Superman, Batman, Wonder Woman, Spider-Man, Iron Man, Captain America, Thor, Hulk, Black Widow, Flash, Aquaman, Wolverine, Deadpool, Captain Marvel, Black Panther, Doctor Strange, Ant-Man, Wasp, Hawkeye, Green Lantern, Green Arrow, Supergirl, Batgirl, Robin, Nightwing, Catwoman, Harley Quinn, Joker, Lex Luthor, Thanos, Loki, Magneto, Professor X, Jean Grey, Cyclops, Storm, Rogue, Gambit, Beast, Iceman, Human Torch, Invisible Woman, Mr. Fantastic, Thing, Daredevil, Punisher, Blade, Ghost Rider, Hellboy, Spawn, Invincible, Omni-Man, Homelander, Starlight, Queen Maeve, A-Train, The Deep, Black Noir, Translucent, Stormfront, Soldier Boy, Shazam, Blue Beetle, Static Shock, Miles Morales, Gwen Stacy, Miguel O'Hara, Peter Parker, Miles Morales,  She-Hulk, Matt Murdock, Frank Castle, Peter Quill, Gamora, Rocket, Groot, Drax, Nebula, Mantis, Nick Fury, Killmonger, Shuri, Okoye, Nakia, M'Baku, Erik Killmonger, Red Skull, Ultron, Kang, Galactus, Doctor Doom, Venom, Carnage, Sandman, Doctor Octopus, Green Goblin, Kingpin, Bullseye, Elektra, Jessica Jones, Luke Cage, Iron Fist, Colleen Wing, Misty Knight, Cloak, Dagger, Moon Knight, Marc Spector, Steven Grant, Jake Lockley, Mr. Knight, Werewolf, Blade, Morbius, Man-Thing, Howard the Duck, Cosmo, Lockjaw, Ms. Marvel, Squirrel Girl, America Chavez, Kate Bishop, Yelena Belova, Red Guardian, Melina, Taskmaster, Baron Zemo, Ulysses Klaue, Mysterio, Vulture, Shocker, Scorpion, Rhino, Lizard, Kraven, Chameleon, Hobgoblin, Demogoblin, Jackal, Hammerhead, Silvermane, Tombstone, Black Cat, Silver Sable, Prowler, Doctor Octopus, Electro, Sandman, Hydro-Man, Molten Man, Beetle, Boomerang, Shocker, Trapster, Stilt-Man, Owl, Purple Man, Kingpin, Bullseye, Elektra, Typhoid Mary, Bushmaster, Cottonmouth, Black Mariah, Shades, Comanche, Diamondback, Steel Serpent, Madame Gao, Nobu, Bakuto, Murakami, Sowande, Gao, Alexandra, Davos, Steel Serpent, Colleen Wing, Misty Knight, Claire Temple, Jeri Hogarth, Karen Page, Foggy Nelson, Malcolm Ducasse, Patricia Walker, Trish Walker, Dorothy Walker, Rebecca, Louise, Wendy, Candace, Oksana, Anjelica, Tatiana, Ana, Elena, Yelena, Alexei, Melina, Dreykov, Taskmaster, Red Guardian, Crimson Dynamo, Titanium Man, Unicorn, Whiplash, Crimson Cowl, Madame Masque, Count Nefaria, Living Laser, Whirlwind, Melter, Radioactive Man, Black Knight, Doctor Druid, Mantis, Swordsman, Hercules, Venus, Marvel Boy, Vision, Scarlet Witch, Quicksilver, Wonder Man, Beast, Angel, Iceman, Marvel Girl, Cyclops, Professor X, Magneto, Mystique, Sabretooth, Toad, Blob, Pyro, Avalanche, Destiny, Emma Frost, Sebastian Shaw, Donald Pierce, Harry Leland, Shinobi Shaw, Cassandra Nova, Deadpool, Cable, Domino, Shatterstar, Boom-Boom, Warpath, Sunspot, Cannonball, Wolfsbane, Karma, Magik, Colossus, Nightcrawler, Shadowcat, Lockheed, Armor, Pixie, Rockslide, Anole, Mercury, X-23, Honey Badger, Gabby, Daken, Genesis, Kid Omega, Quentin Quire, Glob Herman, Broo, Shark-Girl, Doop, Multiple Man, Strong Guy, Wolfsbane, Rictor, Shatterstar, Boom-Boom, Feral, Thornn, Aurora, Northstar, Sasquatch, Shaman, Talisman, Snowbird, Puck, Guardian, Vindicator, Major Mapleleaf, Flex, Deadpool, Cable, Domino, Shatterstar, Boom-Boom, Warpath, Sunspot, Cannonball, Wolfsbane, Karma, Magik, Colossus, Nightcrawler, Shadowcat, Lockheed, Armor, Pixie, Rockslide, Anole, Mercury, X-23, Honey Badger, Gabby, Daken, Genesis, Kid Omega, Quentin Quire, Glob Herman, Broo, Shark-Girl, Doop, Multiple Man, Strong Guy, Wolfsbane, Rictor, Shatterstar, Boom-Boom, Feral, Thornn, Aurora, Northstar, Sasquatch, Shaman, Talisman, Snowbird, Puck, Guardian, Vindicator, Major Mapleleaf, Flex`).split(',').map(x=>x.trim()),
+
+            // NOVAS CATEGORIAS ADICIONADAS
+            "Book Titles": (`The Odyssey, The Iliad, Don Quixote, The Divine Comedy, Hamlet, King Lear, Pride and Prejudice, 1984, Moby-Dick, Crime and Punishment, War and Peace, In Search of Lost Time, Ulysses, The Great Gatsby, One Hundred Years of Solitude, The Trial, The Picture of Dorian Gray, Madame Bovary, To Kill a Mockingbird, The Old Man and the Sea, The Catcher in the Rye, Dom Casmurro, The Devil to Pay in the Backlands, Barren Lives, Captains of the Sand, The Hour of the Star, Blindness, Wuthering Heights, Jane Eyre, Frankenstein, Mrs. Dalloway, The Second Sex, The Song of Achilles, Dune, The Lord of the Rings, The Hitchhiker's Guide to the Galaxy, Brave New World, Fahrenheit 451, The Handmaid's Tale, Animal Farm, One Thousand and One Nights, The Count of Monte Cristo, The Brothers Karamazov, The Stranger, Beloved, Things Fall Apart, Love in the Time of Cholera, The Alchemist`).split(',').map(x=>x.trim()),
+
+            "Authors": (`Homer, Sappho, Virgil, Dante Alighieri, William Shakespeare, Miguel de Cervantes, Jane Austen, Charles Dickens, Charlotte Brontë, Emily Brontë, Anne Brontë, Leo Tolstoy, Fyodor Dostoevsky, Anton Chekhov, Victor Hugo, Gustave Flaubert, Emily Dickinson, Walt Whitman, Edgar Allan Poe, Franz Kafka, James Joyce, Virginia Woolf, Marcel Proust, Ernest Hemingway, William Faulkner, George Orwell, Albert Camus, Gabriel García Márquez, Julio Cortázar, Jorge Luis Borges, Pablo Neruda, Machado de Assis, João Guimarães Rosa, Clarice Lispector, Graciliano Ramos, Jorge Amado, Cecília Meireles, Rachel de Queiroz, José Saramago, Fernando Pessoa, Luís de Camões, Chinua Achebe, Haruki Murakami, Toni Morrison, Philip Roth, J.R.R. Tolkien, Agatha Christie, Mary Shelley, Simone de Beauvoir, Marguerite Yourcenar, Isabel Allende, Ursula K. Le Guin, Margaret Atwood, Sylvia Plath, Lygia Fagundes Telles, George R.R. Martin, Stephen King, James Baldwin, Oscar Wilde, F. Scott Fitzgerald`).split(',').map(x=>x.trim())
         };
 
-        // Game state (mantenha o existente)
+        // Game state
         let usedQuestions = [];
         let score = 0;
         let correctAnswers = 0;
@@ -160,12 +889,12 @@
         let currentPlayer = null;
         let currentSoundIndex = 0;
 
-        // NOVO: Sistema de ranking permanente
+        // Ranking system
         let permanentRanking = JSON.parse(localStorage.getItem('OneOut_permanent_ranking')) || [];
         let dailyRanking = JSON.parse(localStorage.getItem('OneOut_daily_ranking')) || [];
-        let currentRankingView = 'daily'; // 'daily' ou 'permanent'
+        let currentRankingView = 'daily';
 
-        // DOM elements (adicione os novos)
+        // DOM elements
         const loginScreen = document.getElementById('login-screen');
         const mainGame = document.getElementById('main-game');
         const footer = document.getElementById('footer');
@@ -178,35 +907,68 @@
         const quitGameBtn = document.getElementById('quit-game-btn');
         const mainQuitBtn = document.getElementById('main-quit-btn');
 
-        // NOVO: Elementos do ranking
-        const rankingTabsContainer = document.createElement('div');
-        rankingTabsContainer.className = 'ranking-tabs';
-        rankingTabsContainer.innerHTML = `
-            <button class="ranking-tab active" data-tab="daily">🏆 Daily</button>
-            <button class="ranking-tab" data-tab="permanent">📊 All Time</button>
-        `;
+        const gameScreen = document.getElementById('game-screen');
+        const gameOverScreen = document.getElementById('game-over');
+        const levelDisplay = document.getElementById('level-display');
+        const currentLevelDisplay = document.getElementById('current-level');
+        const currentCategoryElement = document.getElementById('current-category');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const autoNextTimerElement = document.getElementById('auto-next-timer');
+        const countdownElement = document.getElementById('countdown');
+        const scoreElement = document.getElementById('score');
+        const correctCountElement = document.getElementById('correct-count');
+        const streakElement = document.getElementById('streak');
+        const levelProgressElement = document.getElementById('level-progress');
+        const progressElement = document.getElementById('progress');
+        const progressTextElement = document.getElementById('progress-text');
+        const finalScoreElement = document.getElementById('final-score');
+        const finalCorrectElement = document.getElementById('final-correct');
+        const finalStreakElement = document.getElementById('final-streak');
+        const finalLevelElement = document.getElementById('final-level');
+        const finalMedalsElement = document.getElementById('final-medals');
+        const restartButton = document.getElementById('restart-btn');
 
-        // Inserir tabs antes da lista de ranking
-        const rankingSidebar = document.querySelector('.ranking-sidebar');
-        const rankingSection = rankingSidebar.querySelector('.ranking-section');
-        rankingSection.insertBefore(rankingTabsContainer, rankingSection.firstChild);
+        // Medal elements
+        const medalBronze = document.getElementById('medal-bronze');
+        const medalSilver = document.getElementById('medal-silver');
+        const medalGold = document.getElementById('medal-gold');
+        const medalPlatinum = document.getElementById('medal-platinum');
+        const medalDiamond = document.getElementById('medal-diamond');
+        const medalVibranium = document.getElementById('medal-vibranium');
+        const finalMedalBronze = document.getElementById('final-medal-bronze');
+        const finalMedalSilver = document.getElementById('final-medal-silver');
+        const finalMedalGold = document.getElementById('final-medal-gold');
+        const finalMedalPlatinum = document.getElementById('final-medal-platinum');
+        const finalMedalDiamond = document.getElementById('final-medal-diamond');
+        const finalMedalVibranium = document.getElementById('final-medal-vibranium');
 
-        // ... (mantenha o resto dos elementos DOM existentes) ...
+        // Audio elements
+        const levelUpSounds = [
+            document.getElementById('levelUpSound1'),
+            document.getElementById('levelUpSound2'),
+            document.getElementById('levelUpSound3'),
+            document.getElementById('levelUpSound4'),
+            document.getElementById('levelUpSound5'),
+            document.getElementById('levelUpSound6'),
+            document.getElementById('levelUpSound7')
+        ];
+        
+        // NOVO: Som Jedi para bonus
+        const jediBonusSound = document.getElementById('jediBonusSound');
 
-        // Event listeners para as tabs
+        // Event listeners para ranking tabs
         document.querySelectorAll('.ranking-tab').forEach(tab => {
             tab.addEventListener('click', function() {
-                // Ativar tab clicada
                 document.querySelectorAll('.ranking-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                
-                // Mudar visualização
                 currentRankingView = this.getAttribute('data-tab');
                 updateRanking();
             });
         });
 
-        // Initialize login (mantenha o existente)
+        // Initialize login
         startGameBtn.addEventListener('click', startGame);
         playerNameInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -214,9 +976,395 @@
             }
         });
 
-        // ... (mantenha as outras funções existentes) ...
+        // Quit game functionality
+        quitGameBtn.addEventListener('click', quitGame);
+        mainQuitBtn.addEventListener('click', quitGame);
 
-        // NOVO: Sistema de ranking permanente melhorado
+        function quitGame() {
+            if (confirm('Are you sure you want to give up? Your current progress will be saved.')) {
+                endGame();
+            }
+        }
+
+        function startGame() {
+            const playerName = playerNameInput.value.trim();
+            if (!playerName) {
+                alert('Please enter your name!');
+                return;
+            }
+
+            // Verificar se jogador já existe
+            const existingPlayer = permanentRanking.find(entry => 
+                entry.name.toLowerCase() === playerName.toLowerCase()
+            );
+
+            if (existingPlayer) {
+                currentPlayer = {
+                    id: existingPlayer.id,
+                    name: playerName,
+                    score: 0,
+                    level: 1,
+                    date: new Date().toISOString().split('T')[0]
+                };
+            } else {
+                currentPlayer = {
+                    id: generatePlayerId(),
+                    name: playerName,
+                    score: 0,
+                    level: 1,
+                    date: new Date().toISOString().split('T')[0]
+                };
+            }
+
+            playerNameDisplay.textContent = playerName;
+            playerIdDisplay.textContent = `ID: ${currentPlayer.id}`;
+
+            // Mostrar estatísticas se jogador existente
+            if (existingPlayer) {
+                const stats = getPlayerStats(currentPlayer.id);
+                if (stats) {
+                    playerIdDisplay.innerHTML += `<br><small>Best: ${stats.bestScore} pts (Lv.${stats.bestLevel})</small>`;
+                }
+            }
+
+            loginScreen.style.display = 'none';
+            mainGame.style.display = 'grid';
+            footer.style.display = 'block';
+
+            updateWordsList();
+            updateRanking();
+            initGame();
+        }
+
+        function generatePlayerId() {
+            return Math.random().toString(36).substr(2, 8).toUpperCase();
+        }
+
+        // Play level up sound
+        function playLevelUpSound() {
+            const sound = levelUpSounds[currentSoundIndex];
+            sound.currentTime = 0;
+            sound.play().catch(e => console.log('Audio play failed:', e));
+            currentSoundIndex = (currentSoundIndex + 1) % levelUpSounds.length;
+        }
+
+        // NOVO: Tocar som Jedi
+        function playJediSound() {
+            jediBonusSound.currentTime = 0;
+            jediBonusSound.play().catch(e => console.log('Jedi sound failed:', e));
+        }
+
+        // Update words list in footer
+        function updateWordsList() {
+            const allWords = [];
+            Object.values(categories).forEach(categoryWords => {
+                allWords.push(...categoryWords);
+            });
+
+            const uniqueWords = [...new Set(allWords)].sort();
+            const sampleWords = [];
+            const usedIndices = new Set();
+            
+            while (sampleWords.length < 50 && sampleWords.length < uniqueWords.length) {
+                const randomIndex = Math.floor(Math.random() * uniqueWords.length);
+                if (!usedIndices.has(randomIndex)) {
+                    sampleWords.push(uniqueWords[randomIndex]);
+                    usedIndices.add(randomIndex);
+                }
+            }
+
+            wordsList.innerHTML = '';
+            sampleWords.forEach(word => {
+                const wordTag = document.createElement('span');
+                wordTag.className = 'word-tag';
+                wordTag.textContent = word;
+                wordsList.appendChild(wordTag);
+            });
+        }
+
+        // Initialize game
+        function initGame() {
+            usedQuestions = [];
+            score = 0;
+            correctAnswers = 0;
+            currentStreak = 0;
+            bestStreak = 0;
+            level = 1;
+            levelProgress = 0;
+            medals = { bronze: false, silver: false, gold: false, platinum: false, diamond: false, vibranium: false };
+            categoriesPlayed = new Set();
+            gameActive = true;
+            currentSoundIndex = 0;
+            updateScore();
+            updateLevel();
+            updateMedals();
+            generateNewQuestion();
+            
+            gameScreen.style.display = 'block';
+            gameOverScreen.style.display = 'none';
+        }
+
+        // Generate a new random question
+        function generateNewQuestion() {
+            if (categoriesPlayed.size >= Object.keys(categories).length && usedQuestions.length > 50) {
+                endGame();
+                return;
+            }
+
+            // Clear any existing timer
+            if (autoNextTimer) {
+                clearInterval(autoNextTimer);
+                autoNextTimer = null;
+            }
+
+            // Get random category
+            const categoryNames = Object.keys(categories);
+            let randomCategory;
+            
+            const unplayedCategories = categoryNames.filter(cat => !categoriesPlayed.has(cat));
+            if (unplayedCategories.length > 0 && Math.random() > 0.3) {
+                randomCategory = unplayedCategories[Math.floor(Math.random() * unplayedCategories.length)];
+            } else {
+                randomCategory = categoryNames[Math.floor(Math.random() * categoryNames.length)];
+            }
+            
+            categoriesPlayed.add(randomCategory);
+
+            // Get correct answer
+            const categoryWords = categories[randomCategory];
+            const correctWord = categoryWords[Math.floor(Math.random() * categoryWords.length)];
+
+            // Get wrong answers
+            const wrongWords = [];
+            const otherCategories = categoryNames.filter(cat => cat !== randomCategory);
+            
+            while (wrongWords.length < 3) {
+                const randomOtherCategory = otherCategories[Math.floor(Math.random() * otherCategories.length)];
+                const otherCategoryWords = categories[randomOtherCategory];
+                const randomWord = otherCategoryWords[Math.floor(Math.random() * otherCategoryWords.length)];
+                
+                if (!wrongWords.includes(randomWord) && 
+                    randomWord !== correctWord && 
+                    randomWord.length > 2) {
+                    wrongWords.push(randomWord);
+                }
+            }
+
+            // Combine and shuffle options
+            const allOptions = [correctWord, ...wrongWords];
+            shuffleArray(allOptions);
+            const correctIndex = allOptions.indexOf(correctWord);
+
+            // Display question
+            displayQuestion(randomCategory, allOptions, correctIndex);
+        }
+
+        // Display question on screen
+        function displayQuestion(category, options, correctIndex) {
+            currentCategoryElement.textContent = category;
+            optionsContainer.innerHTML = '';
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+            nextButton.style.display = 'none';
+            autoNextTimerElement.style.display = 'none';
+
+            options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.textContent = option.charAt(0).toUpperCase() + option.slice(1);
+                button.addEventListener('click', () => handleAnswer(index === correctIndex, option, category));
+                optionsContainer.appendChild(button);
+            });
+
+            updateProgress();
+        }
+
+        // MODIFICADO: Handle answer selection com bonus Jedi
+        function handleAnswer(isCorrect, word, category) {
+            if (!gameActive) return;
+
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+
+            let pointsEarned = 0;
+            let bonusText = '';
+
+            if (isCorrect) {
+                // Base points
+                pointsEarned = 10;
+                currentStreak++;
+                
+                // NOVO: Bonus Jedi a cada 5 acertos consecutivos
+                if (currentStreak % 5 === 0) {
+                    const jediBonus = 100;
+                    pointsEarned += jediBonus;
+                    bonusText = ` +${jediBonus} Jedi bonus! ⚡`;
+                    playJediSound(); // Tocar som Jedi
+                    
+                    // Efeito visual especial para bonus Jedi
+                    feedbackElement.classList.add('jedi-bonus');
+                    setTimeout(() => feedbackElement.classList.remove('jedi-bonus'), 1000);
+                }
+                // Streak bonus normal (20% para 5+ consecutivos)
+                else if (currentStreak >= 5) {
+                    const bonus = Math.floor(pointsEarned * 0.2);
+                    pointsEarned += bonus;
+                    bonusText = ` +${bonus} streak bonus!`;
+                }
+                
+                score += pointsEarned;
+                correctAnswers++;
+                bestStreak = Math.max(bestStreak, currentStreak);
+                levelProgress++;
+                
+                feedbackElement.innerHTML = `✅ Correct! "${word}" belongs to ${category}<div class="bonus-indicator">+${pointsEarned} points${bonusText}</div>`;
+                feedbackElement.className = 'feedback correct-feedback';
+                
+                optionButtons.forEach((btn, index) => {
+                    if (btn.textContent.toLowerCase() === word.toLowerCase()) {
+                        btn.classList.add('correct');
+                    }
+                });
+
+                if (levelProgress >= 8) {
+                    levelUp();
+                }
+            } else {
+                pointsEarned = -3;
+                score = Math.max(0, score + pointsEarned);
+                currentStreak = 0;
+                
+                feedbackElement.innerHTML = `❌ Incorrect! "${word}" doesn't belong to ${category}<div class="bonus-indicator">${pointsEarned} points</div>`;
+                feedbackElement.className = 'feedback incorrect-feedback';
+                
+                optionButtons.forEach(btn => {
+                    if (btn.textContent.toLowerCase() === word.toLowerCase()) {
+                        btn.classList.add('incorrect');
+                    }
+                    const correctWord = categories[category].find(w => 
+                        btn.textContent.toLowerCase() === w.toLowerCase()
+                    );
+                    if (correctWord) {
+                        btn.classList.add('correct');
+                    }
+                });
+            }
+
+            updateScore();
+            updateMedals();
+            startAutoNextTimer();
+        }
+
+        // MODIFICADO: Start automatic next question timer - AGORA 1 SEGUNDO
+        function startAutoNextTimer() {
+            let countdown = 1; // MUDADO: de 2 para 1 segundo
+            autoNextTimerElement.style.display = 'block';
+            countdownElement.textContent = countdown;
+            
+            autoNextTimer = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(autoNextTimer);
+                    generateNewQuestion();
+                }
+            }, 1000);
+        }
+
+        // ... (mantenha as funções levelUp, updateMedals, updateScore, updateProgress, updateLevel) ...
+
+        function levelUp() {
+            level++;
+            levelProgress = 0;
+            levelDisplay.textContent = level;
+            currentLevelDisplay.textContent = level;
+            levelDisplay.classList.add('level-up');
+            
+            playLevelUpSound();
+            
+            const levelBonus = level * 25;
+            score += levelBonus;
+            
+            setTimeout(() => {
+                levelDisplay.classList.remove('level-up');
+            }, 500);
+
+            updateScore();
+        }
+
+        function updateMedals() {
+            if (level >= 2 && !medals.bronze) {
+                medals.bronze = true;
+                medalBronze.style.opacity = '1';
+                medalBronze.style.transform = 'scale(1.2)';
+                setTimeout(() => medalBronze.style.transform = 'scale(1)', 300);
+            }
+
+            if (level >= 4 && !medals.silver) {
+                medals.silver = true;
+                medalSilver.style.opacity = '1';
+                medalSilver.style.transform = 'scale(1.2)';
+                setTimeout(() => medalSilver.style.transform = 'scale(1)', 300);
+            }
+
+            if (level >= 6 && !medals.gold) {
+                medals.gold = true;
+                medalGold.style.opacity = '1';
+                medalGold.style.transform = 'scale(1.2)';
+                setTimeout(() => medalGold.style.transform = 'scale(1)', 300);
+            }
+
+            if (level >= 8 && !medals.platinum) {
+                medals.platinum = true;
+                medalPlatinum.style.opacity = '1';
+                medalPlatinum.style.transform = 'scale(1.2)';
+                setTimeout(() => medalPlatinum.style.transform = 'scale(1)', 300);
+            }
+
+            if (level >= 12 && !medals.diamond) {
+                medals.diamond = true;
+                medalDiamond.style.opacity = '1';
+                medalDiamond.style.transform = 'scale(1.2)';
+                setTimeout(() => medalDiamond.style.transform = 'scale(1)', 300);
+            }
+
+            if (level >= 16 && !medals.vibranium) {
+                medals.vibranium = true;
+                medalVibranium.style.opacity = '1';
+                medalVibranium.style.transform = 'scale(1.2)';
+                setTimeout(() => medalVibranium.style.transform = 'scale(1)', 300);
+            }
+
+            finalMedalBronze.style.opacity = medals.bronze ? '1' : '0.3';
+            finalMedalSilver.style.opacity = medals.silver ? '1' : '0.3';
+            finalMedalGold.style.opacity = medals.gold ? '1' : '0.3';
+            finalMedalPlatinum.style.opacity = medals.platinum ? '1' : '0.3';
+            finalMedalDiamond.style.opacity = medals.diamond ? '1' : '0.3';
+            finalMedalVibranium.style.opacity = medals.vibranium ? '1' : '0.3';
+        }
+
+        function updateScore() {
+            scoreElement.textContent = score;
+            correctCountElement.textContent = correctAnswers;
+            streakElement.textContent = `${currentStreak} ${currentStreak >= 5 ? '⚡' : '🔥'}`;
+            levelProgressElement.textContent = `${levelProgress}/8`;
+        }
+
+        function updateProgress() {
+            const progress = (levelProgress / 8) * 100;
+            progressElement.style.width = `${progress}%`;
+            progressTextElement.textContent = `${Math.round(progress)}%`;
+        }
+
+        function updateLevel() {
+            levelDisplay.textContent = level;
+            currentLevelDisplay.textContent = level;
+        }
+
+        // MODIFICADO: Update ranking display
         function updateRanking() {
             let rankingData = [];
             let title = '';
@@ -229,7 +1377,6 @@
                     .slice(0, 10);
                 title = '🏆 Daily Ranking';
             } else {
-                // Ranking permanente - pega o melhor score de cada jogador
                 const bestScores = {};
                 permanentRanking.forEach(entry => {
                     if (!bestScores[entry.id] || entry.score > bestScores[entry.id].score) {
@@ -250,10 +1397,7 @@
                 title = '📊 All Time Ranking';
             }
 
-            // Atualizar título
             rankingSidebar.querySelector('h2').textContent = title;
-
-            // Atualizar lista
             rankingList.innerHTML = '';
 
             if (rankingData.length === 0) {
@@ -283,7 +1427,6 @@
                 
                 rankingItem.innerHTML = content;
                 
-                // Adicionar stats para ranking permanente
                 if (currentRankingView === 'permanent') {
                     const statsDiv = document.createElement('div');
                     statsDiv.className = 'ranking-stats';
@@ -298,13 +1441,12 @@
             });
         }
 
-        // NOVO: Salvar score nos rankings
+        // MODIFICADO: Save score to rankings
         function saveScore() {
             if (!currentPlayer) return;
 
             const today = new Date().toISOString().split('T')[0];
             
-            // Dados completos do jogador
             const playerData = {
                 ...currentPlayer,
                 score: score,
@@ -315,15 +1457,12 @@
                 timestamp: new Date().getTime()
             };
 
-            // Salvar no ranking diário
             dailyRanking.push({...playerData});
-            dailyRanking = dailyRanking.slice(-100); // Manter apenas últimos 100 registros
+            dailyRanking = dailyRanking.slice(-100);
             
-            // Salvar no ranking permanente
             permanentRanking.push({...playerData});
-            permanentRanking = permanentRanking.slice(-500); // Manter últimos 500 registros
+            permanentRanking = permanentRanking.slice(-500);
 
-            // Atualizar localStorage
             localStorage.setItem('OneOut_daily_ranking', JSON.stringify(dailyRanking));
             localStorage.setItem('OneOut_permanent_ranking', JSON.stringify(permanentRanking));
 
@@ -358,62 +1497,7 @@
             };
         }
 
-        // MODIFICADO: Iniciar jogo - verificar se jogador existe
-        function startGame() {
-            const playerName = playerNameInput.value.trim();
-            if (!playerName) {
-                alert('Please enter your name!');
-                return;
-            }
-
-            // Verificar se jogador já existe no ranking permanente
-            const existingPlayer = permanentRanking.find(entry => 
-                entry.name.toLowerCase() === playerName.toLowerCase()
-            );
-
-            if (existingPlayer) {
-                // Usar ID existente
-                currentPlayer = {
-                    id: existingPlayer.id,
-                    name: playerName,
-                    score: 0,
-                    level: 1,
-                    date: new Date().toISOString().split('T')[0]
-                };
-            } else {
-                // Novo jogador
-                currentPlayer = {
-                    id: generatePlayerId(),
-                    name: playerName,
-                    score: 0,
-                    level: 1,
-                    date: new Date().toISOString().split('T')[0]
-                };
-            }
-
-            playerNameDisplay.textContent = playerName;
-            playerIdDisplay.textContent = `ID: ${currentPlayer.id}`;
-
-            // Mostrar estatísticas se jogador existente
-            if (existingPlayer) {
-                const stats = getPlayerStats(currentPlayer.id);
-                if (stats) {
-                    playerIdDisplay.innerHTML += `<br><small>Best: ${stats.bestScore} pts (Lv.${stats.bestLevel})</small>`;
-                }
-            }
-
-            loginScreen.style.display = 'none';
-            mainGame.style.display = 'grid';
-            footer.style.display = 'block';
-
-            updateWordsList();
-            updateRanking();
-            initGame();
-        }
-
-        // ... (mantenha o resto das funções existentes) ...
-
-        // MODIFICADO: Finalizar jogo - mostrar estatísticas comparativas
+        // End game
         function endGame() {
             gameActive = false;
             if (autoNextTimer) {
@@ -430,7 +1514,6 @@
             const medalsCount = Object.values(medals).filter(Boolean).length;
             finalMedalsElement.textContent = medalsCount;
             
-            // Mostrar comparação com recorde pessoal
             if (currentPlayer) {
                 const stats = getPlayerStats(currentPlayer.id);
                 if (stats && stats.bestScore > score) {
@@ -451,7 +1534,26 @@
             gameOverScreen.style.display = 'block';
         }
 
-        // ... (mantenha o resto do código existente) ...
+        // Utility function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Event listeners
+        nextButton.addEventListener('click', generateNewQuestion);
+        restartButton.addEventListener('click', initGame);
+
+        // Touch optimization for tablets
+        document.addEventListener('touchstart', function() {}, {passive: true});
+
+        // Focus on input when page loads
+        window.addEventListener('load', () => {
+            playerNameInput.focus();
+        });
     </script>
 </body>
 </html>
