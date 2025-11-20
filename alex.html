@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,6 +64,13 @@
             font-size: 1.4em;
             font-weight: bold;
             margin: 20px 0;
+        }
+
+        .instructions {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 500;
         }
 
         .options-container {
@@ -157,6 +164,15 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
+        }
+
+        .score-label {
+            color: #666;
+        }
+
+        .score-value {
+            font-weight: bold;
+            color: #333;
         }
 
         .medals-container {
@@ -307,123 +323,127 @@
     </style>
 </head>
 <body>
-    <!-- Tela de Login -->
+    <!-- Login Screen -->
     <div class="login-screen" id="loginScreen">
         <div class="login-container">
             <h1>OneOut</h1>
             <p class="subtitle">Category Game</p>
-            <input type="text" class="login-input" id="playerNameInput" placeholder="Digite seu nome" maxlength="20">
-            <button class="login-btn" id="startGameBtn">Iniciar Jogo</button>
+            <input type="text" class="login-input" id="playerNameInput" placeholder="Enter your name" maxlength="20">
+            <button class="login-btn" id="startGameBtn">Start Game</button>
         </div>
     </div>
 
-    <!-- Jogo Principal -->
+    <!-- Main Game -->
     <div class="app-container" id="mainGame" style="display: none;">
-        <!-- Sidebar Esquerda -->
+        <!-- Left Sidebar -->
         <div class="sidebar">
-            <h2>Informações</h2>
+            <h2>Player Info</h2>
             <div class="player-info">
-                <div class="player-name" id="playerNameDisplay">Jogador</div>
+                <div class="player-name" id="playerNameDisplay">Player</div>
                 <div class="player-id" id="playerIdDisplay">ID: --</div>
             </div>
 
             <div class="score-panel">
                 <div class="score-item">
-                    <span>Nível:</span>
-                    <span id="levelDisplay">1</span>
+                    <span class="score-label">Level:</span>
+                    <span class="score-value" id="levelDisplay">1</span>
                 </div>
                 <div class="score-item">
-                    <span>Pontuação:</span>
-                    <span id="scoreDisplay">0</span>
+                    <span class="score-label">Score:</span>
+                    <span class="score-value" id="scoreDisplay">0</span>
                 </div>
                 <div class="score-item">
-                    <span>Sequência:</span>
-                    <span id="streakDisplay">0</span>
+                    <span class="score-label">Streak:</span>
+                    <span class="score-value" id="streakDisplay">0</span>
                 </div>
                 <div class="score-item">
-                    <span>Acertos:</span>
-                    <span id="correctDisplay">0</span>
+                    <span class="score-label">Correct:</span>
+                    <span class="score-value" id="correctDisplay">0</span>
                 </div>
             </div>
 
-            <h2>Medalhas</h2>
+            <h2>Medals</h2>
             <div class="medals-container">
                 <div class="medal medal-bronze" style="opacity: 0.3;">🥉 Bronze</div>
-                <div class="medal medal-silver" style="opacity: 0.3;">🥈 Prata</div>
-                <div class="medal medal-gold" style="opacity: 0.3;">🥇 Ouro</div>
-                <div class="medal medal-platinum" style="opacity: 0.3;">💎 Platina</div>
-                <div class="medal medal-diamond" style="opacity: 0.3;">💠 Diamante</div>
+                <div class="medal medal-silver" style="opacity: 0.3;">🥈 Silver</div>
+                <div class="medal medal-gold" style="opacity: 0.3;">🥇 Gold</div>
+                <div class="medal medal-platinum" style="opacity: 0.3;">💎 Platinum</div>
+                <div class="medal medal-diamond" style="opacity: 0.3;">💠 Diamond</div>
                 <div class="medal medal-vibranium" style="opacity: 0.3;">⚛️ Vibranium</div>
             </div>
 
             <button class="quit-btn" id="quitGameBtn" style="width: 100%; margin-top: 15px;">
-                🏳️ Desistir
+                🏳️ Give Up
             </button>
         </div>
 
-        <!-- Área Central do Jogo -->
+        <!-- Center Game Area -->
         <div class="game-area">
             <div id="gameScreen">
                 <h1>OneOut</h1>
-                <p class="subtitle">Encontre a palavra que pertence à categoria</p>
+                <p class="subtitle">Category Game</p>
                 
-                <div class="category-display" id="currentCategory">Carregando...</div>
+                <div class="category-display" id="currentCategory">Loading...</div>
+                <div class="instructions">Click on the word that belongs to this category:</div>
                 
                 <div class="options-container" id="optionsContainer">
-                    <!-- Opções serão geradas aqui -->
+                    <!-- Options will be generated here -->
                 </div>
                 
                 <div class="feedback" id="feedback"></div>
                 
                 <div class="auto-next-timer" id="autoNextTimer" style="display: none;">
-                    Próxima pergunta em <span id="countdown">1</span> segundo...
+                    Next question in <span id="countdown">1</span> second...
                 </div>
             </div>
 
             <div class="game-over" id="gameOverScreen" style="display: none;">
-                <h1>🎉 Fim de Jogo!</h1>
-                <p class="subtitle">Você dominou as categorias!</p>
+                <h1>🎉 Game Completed!</h1>
+                <p class="subtitle">You mastered the categories!</p>
                 
                 <div class="final-score" id="finalScore">0</div>
-                <p>pontos totais</p>
+                <p>total points</p>
                 
                 <div style="margin: 20px 0;">
-                    <p>Nível Alcançado: <span id="finalLevel">1</span></p>
-                    <p>Acertos: <span id="finalCorrect">0</span></p>
-                    <p>Melhor sequência: <span id="finalStreak">0</span> 🔥</p>
+                    <p>Level Reached: <span id="finalLevel">1</span></p>
+                    <p>Correct Answers: <span id="finalCorrect">0</span></p>
+                    <p>Best Streak: <span id="finalStreak">0</span> 🔥</p>
                 </div>
                 
                 <div class="game-controls">
-                    <button class="restart-btn" id="restartBtn">Jogar Novamente</button>
-                    <button class="quit-btn" id="mainQuitBtn">Sair</button>
+                    <button class="restart-btn" id="restartBtn">Play Again</button>
+                    <button class="quit-btn" id="mainQuitBtn">Quit Game</button>
                 </div>
             </div>
         </div>
 
-        <!-- Sidebar Direita - Ranking -->
+        <!-- Right Sidebar - Ranking -->
         <div class="ranking-sidebar">
             <h2>🏆 Ranking</h2>
             <div class="ranking-tabs">
-                <button class="ranking-tab active" data-tab="daily">Diário</button>
-                <button class="ranking-tab" data-tab="permanent">Geral</button>
+                <button class="ranking-tab active" data-tab="daily">Daily</button>
+                <button class="ranking-tab" data-tab="permanent">All Time</button>
             </div>
             <div class="ranking-list" id="rankingList">
-                <!-- Ranking será preenchido aqui -->
+                <!-- Ranking will be populated here -->
             </div>
         </div>
     </div>
 
     <script>
-        // Categorias simplificadas para teste
+        // Categories in English
         const categories = {
-            "Esportes": ["futebol", "basquete", "natação", "corrida", "ciclismo"],
-            "Comidas": ["pizza", "hambúrguer", "sushi", "salada", "sorvete"],
-            "Países": ["Brasil", "EUA", "Japão", "França", "Austrália"],
-            "Cores": ["vermelho", "azul", "verde", "amarelo", "roxo"],
-            "Animais": ["cachorro", "gato", "elefante", "pássaro", "peixe"]
+            "Sports": ["soccer", "basketball", "tennis", "swimming", "cycling", "boxing", "golf", "running"],
+            "Food": ["pizza", "burger", "sushi", "pasta", "salad", "ice cream", "steak", "soup"],
+            "Countries": ["USA", "Brazil", "Japan", "France", "Australia", "Canada", "Germany", "Italy"],
+            "Colors": ["red", "blue", "green", "yellow", "purple", "orange", "pink", "black"],
+            "Animals": ["dog", "cat", "elephant", "lion", "bird", "fish", "tiger", "bear"],
+            "Technology": ["computer", "phone", "tablet", "camera", "drone", "robot", "laptop", "watch"],
+            "Professions": ["doctor", "teacher", "engineer", "chef", "artist", "pilot", "driver", "nurse"],
+            "Transportation": ["car", "bus", "train", "plane", "bicycle", "ship", "motorcycle", "subway"]
         };
 
-        // Estado do jogo
+        // Game state
         let gameState = {
             score: 0,
             level: 1,
@@ -433,7 +453,7 @@
             currentPlayer: null
         };
 
-        // Elementos DOM
+        // DOM Elements
         const loginScreen = document.getElementById('loginScreen');
         const mainGame = document.getElementById('mainGame');
         const playerNameInput = document.getElementById('playerNameInput');
@@ -481,7 +501,7 @@
         function startGame() {
             const playerName = playerNameInput.value.trim();
             if (!playerName) {
-                alert('Por favor, digite seu nome!');
+                alert('Please enter your name!');
                 return;
             }
 
@@ -526,7 +546,7 @@
             const randomCategory = categoryNames[Math.floor(Math.random() * categoryNames.length)];
             const correctWord = categories[randomCategory][Math.floor(Math.random() * categories[randomCategory].length)];
 
-            // Gerar palavras erradas de outras categorias
+            // Generate wrong words from other categories
             const wrongWords = [];
             const otherCategories = categoryNames.filter(cat => cat !== randomCategory);
             
@@ -540,7 +560,7 @@
                 }
             }
 
-            // Misturar opções
+            // Shuffle options
             const allOptions = [correctWord, ...wrongWords];
             shuffleArray(allOptions);
             const correctIndex = allOptions.indexOf(correctWord);
@@ -558,7 +578,7 @@
             options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
-                button.textContent = option;
+                button.textContent = option.charAt(0).toUpperCase() + option.slice(1);
                 button.addEventListener('click', () => handleAnswer(index === correctIndex, option, category));
                 optionsContainer.appendChild(button);
             });
@@ -578,24 +598,24 @@
                 gameState.streak++;
                 gameState.correctAnswers++;
 
-                // Bonus Jedi a cada 5 acertos
+                // Jedi Bonus every 5 correct answers
                 if (gameState.streak % 5 === 0) {
                     points += 100;
-                    bonusText = ` +100 Bonus Jedi! ⚡`;
+                    bonusText = ` +100 Jedi Bonus! ⚡`;
                     feedback.classList.add('jedi-bonus');
                 }
 
                 gameState.score += points;
-                feedback.innerHTML = `✅ Correto! "${word}" pertence a ${category}<div class="bonus-indicator">+${points} pontos${bonusText}</div>`;
+                feedback.innerHTML = `✅ Correct! "${word}" belongs to ${category}<div class="bonus-indicator">+${points} points${bonusText}</div>`;
                 feedback.className = 'feedback correct-feedback';
 
                 options.forEach(btn => {
-                    if (btn.textContent === word) {
+                    if (btn.textContent.toLowerCase() === word.toLowerCase()) {
                         btn.classList.add('correct');
                     }
                 });
 
-                // Subir de nível a cada 5 acertos
+                // Level up every 5 correct answers
                 if (gameState.correctAnswers % 5 === 0) {
                     gameState.level++;
                 }
@@ -604,15 +624,15 @@
                 gameState.score = Math.max(0, gameState.score + points);
                 gameState.streak = 0;
                 
-                feedback.innerHTML = `❌ Errado! "${word}" não pertence a ${category}<div class="bonus-indicator">${points} pontos</div>`;
+                feedback.innerHTML = `❌ Incorrect! "${word}" doesn't belong to ${category}<div class="bonus-indicator">${points} points</div>`;
                 feedback.className = 'feedback incorrect-feedback';
 
                 options.forEach(btn => {
-                    if (btn.textContent === word) {
+                    if (btn.textContent.toLowerCase() === word.toLowerCase()) {
                         btn.classList.add('incorrect');
                     }
-                    // Mostrar resposta correta
-                    if (categories[category].includes(btn.textContent)) {
+                    // Show correct answer
+                    if (categories[category].includes(btn.textContent.toLowerCase())) {
                         btn.classList.add('correct');
                     }
                 });
@@ -646,13 +666,13 @@
         }
 
         function updateRanking(type) {
-            // Simular dados de ranking
+            // Simulate ranking data
             const rankingData = [
-                { name: gameState.currentPlayer?.name || "Jogador", score: gameState.score, level: gameState.level },
-                { name: "Ana", score: 450, level: 8 },
-                { name: "João", score: 320, level: 6 },
-                { name: "Maria", score: 280, level: 5 },
-                { name: "Pedro", score: 190, level: 4 }
+                { name: gameState.currentPlayer?.name || "Player", score: gameState.score, level: gameState.level },
+                { name: "John", score: 450, level: 8 },
+                { name: "Sarah", score: 320, level: 6 },
+                { name: "Mike", score: 280, level: 5 },
+                { name: "Emma", score: 190, level: 4 }
             ].sort((a, b) => b.score - a.score);
 
             rankingList.innerHTML = '';
@@ -661,14 +681,14 @@
                 item.className = `ranking-item ${player.name === gameState.currentPlayer?.name ? 'current-player' : ''}`;
                 item.innerHTML = `
                     <span>${index + 1}. ${player.name}</span>
-                    <span>${player.score} pts (Nv.${player.level})</span>
+                    <span>${player.score} pts (Lv.${player.level})</span>
                 `;
                 rankingList.appendChild(item);
             });
         }
 
         function quitGame() {
-            if (confirm('Tem certeza que deseja sair?')) {
+            if (confirm('Are you sure you want to quit?')) {
                 endGame();
             }
         }
@@ -692,7 +712,7 @@
             return array;
         }
 
-        // Focar no input quando a página carregar
+        // Focus on input when page loads
         window.addEventListener('load', () => {
             playerNameInput.focus();
         });
