@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aquilombar - Jogo do conhecimento</title>
+    <title>Aquilombar - Jogo das Personalidades Negras</title>
     <style>
         * {
             box-sizing: border-box;
@@ -1519,38 +1519,9 @@
             return array;
         }
 
-        // Garantir que todas as perguntas tenham 3 opções incorretas
-        function validateQuestionData() {
-            const genericWrongAnswers = [
-                "Líder do movimento constitucionalista de 1932",
-                "Fundador do primeiro jornal abolicionista",
-                "Primeiro deputado federal negro eleito"
-            ];
-            
-            quizData.forEach(question => {
-                // Se não houver wrongAnswers definido, criar array vazio
-                if (!question.wrongAnswers) {
-                    question.wrongAnswers = [];
-                }
-                
-                // Garantir que sempre haja pelo menos 3 opções incorretas
-                while (question.wrongAnswers.length < 3) {
-                    // Adicionar uma resposta genérica das opções disponíveis
-                    const randomIndex = Math.floor(Math.random() * genericWrongAnswers.length);
-                    const randomAnswer = genericWrongAnswers[randomIndex];
-                    
-                    // Só adicionar se não estiver já na lista
-                    if (!question.wrongAnswers.includes(randomAnswer)) {
-                        question.wrongAnswers.push(randomAnswer);
-                    }
-                }
-            });
-        }
-
         // Embaralhar opções de uma pergunta
         function shuffleQuestionOptions(question) {
-            // Garantir que temos as 3 opções incorretas + 1 correta
-            const allOptions = [...question.wrongAnswers.slice(0, 3), question.correctAnswer];
+            const allOptions = [...question.wrongAnswers, question.correctAnswer];
             return shuffleArray(allOptions);
         }
 
@@ -1561,9 +1532,6 @@
             score = 0;
             correctAnswersInPhase = 0;
             gameFinished = false;
-            
-            // Validar os dados das perguntas primeiro
-            validateQuestionData();
             
             // Criar uma cópia do quizData e embaralhar
             currentQuizData = [...quizData];
@@ -1611,15 +1579,12 @@
             
             // Adicionar opções ao DOM
             allOptions.forEach((option, index) => {
-                // Verificar se a opção não é undefined
-                if (option && option !== "undefined") {
-                    const optionElement = document.createElement('div');
-                    optionElement.className = 'option';
-                    optionElement.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
-                    optionElement.dataset.option = option;
-                    optionElement.addEventListener('click', () => selectOption(optionElement));
-                    optionsContainer.appendChild(optionElement);
-                }
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
+                optionElement.dataset.option = option;
+                optionElement.addEventListener('click', () => selectOption(optionElement));
+                optionsContainer.appendChild(optionElement);
             });
             
             // Resetar botão
