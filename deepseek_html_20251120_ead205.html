@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneOut - Category Game</title>
+    <style>
+        /* ... (mantenha todo o CSS existente) ... */
+
+        /* Novos estilos para o ranking permanente */
+        .ranking-tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .ranking-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .ranking-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: bold;
+        }
+
+        .ranking-tab:hover {
+            color: #5a6fd8;
+        }
+
+        .ranking-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ranking-list {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 400px;
+        }
+
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 5px;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 0.8em;
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .ranking-position {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 25px;
+        }
+
+        .ranking-name {
+            flex: 1;
+            margin: 0 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ranking-score {
+            font-weight: bold;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .ranking-level {
+            min-width: 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.75em;
+        }
+
+        .current-player {
+            background: #f0f7ff;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .ranking-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7em;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .ranking-date {
+            font-size: 0.7em;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .empty-ranking {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.8em;
+            color: #666;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ... (mantenha todo o HTML existente) ... -->
+
+    <script>
+        // Categories database (mantenha o existente)
+        const categories = {
+            // ... (mantenha todas as categorias existentes) ...
+        };
+
+        // Game state (mantenha o existente)
+        let usedQuestions = [];
+        let score = 0;
+        let correctAnswers = 0;
+        let currentStreak = 0;
+        let bestStreak = 0;
+        let level = 1;
+        let levelProgress = 0;
+        let medals = {
+            bronze: false,
+            silver: false,
+            gold: false,
+            platinum: false,
+            diamond: false,
+            vibranium: false
+        };
+        let gameActive = true;
+        let categoriesPlayed = new Set();
+        let autoNextTimer = null;
+        let currentPlayer = null;
+        let currentSoundIndex = 0;
+
+        // NOVO: Sistema de ranking permanente
+        let permanentRanking = JSON.parse(localStorage.getItem('OneOut_permanent_ranking')) || [];
+        let dailyRanking = JSON.parse(localStorage.getItem('OneOut_daily_ranking')) || [];
+        let currentRankingView = 'daily'; // 'daily' ou 'permanent'
+
+        // DOM elements (adicione os novos)
+        const loginScreen = document.getElementById('login-screen');
+        const mainGame = document.getElementById('main-game');
+        const footer = document.getElementById('footer');
+        const wordsList = document.getElementById('words-list');
+        const playerNameInput = document.getElementById('player-name-input');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const playerNameDisplay = document.getElementById('player-name-display');
+        const playerIdDisplay = document.getElementById('player-id-display');
+        const rankingList = document.getElementById('ranking-list');
+        const quitGameBtn = document.getElementById('quit-game-btn');
+        const mainQuitBtn = document.getElementById('main-quit-btn');
+
+        // NOVO: Elementos do ranking
+        const rankingTabsContainer = document.createElement('div');
+        rankingTabsContainer.className = 'ranking-tabs';
+        rankingTabsContainer.innerHTML = `
+            <button class="ranking-tab active" data-tab="daily">🏆 Daily</button>
+            <button class="ranking-tab" data-tab="permanent">📊 All Time</button>
+        `;
+
+        // Inserir tabs antes da lista de ranking
+        const rankingSidebar = document.querySelector('.ranking-sidebar');
+        const rankingSection = rankingSidebar.querySelector('.ranking-section');
+        rankingSection.insertBefore(rankingTabsContainer, rankingSection.firstChild);
+
+        // ... (mantenha o resto dos elementos DOM existentes) ...
+
+        // Event listeners para as tabs
+        document.querySelectorAll('.ranking-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Ativar tab clicada
+                document.querySelectorAll('.ranking-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Mudar visualização
+                currentRankingView = this.getAttribute('data-tab');
+                updateRanking();
+            });
+        });
+
+        // Initialize login (mantenha o existente)
+        startGameBtn.addEventListener('click', startGame);
+        playerNameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startGame();
+            }
+        });
+
+        // ... (mantenha as outras funções existentes) ...
+
+        // NOVO: Sistema de ranking permanente melhorado
+        function updateRanking() {
+            let rankingData = [];
+            let title = '';
+
+            if (currentRankingView === 'daily') {
+                const today = new Date().toISOString().split('T')[0];
+                rankingData = dailyRanking
+                    .filter(entry => entry.date === today)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 10);
+                title = '🏆 Daily Ranking';
+            } else {
+                // Ranking permanente - pega o melhor score de cada jogador
+                const bestScores = {};
+                permanentRanking.forEach(entry => {
+                    if (!bestScores[entry.id] || entry.score > bestScores[entry.id].score) {
+                        bestScores[entry.id] = {
+                            name: entry.name,
+                            score: entry.score,
+                            level: entry.level,
+                            lastPlayed: entry.date,
+                            correctAnswers: entry.correctAnswers,
+                            bestStreak: entry.bestStreak
+                        };
+                    }
+                });
+
+                rankingData = Object.values(bestScores)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 10);
+                title = '📊 All Time Ranking';
+            }
+
+            // Atualizar título
+            rankingSidebar.querySelector('h2').textContent = title;
+
+            // Atualizar lista
+            rankingList.innerHTML = '';
+
+            if (rankingData.length === 0) {
+                rankingList.innerHTML = '<div class="empty-ranking">No scores yet</div>';
+                return;
+            }
+
+            rankingData.forEach((entry, index) => {
+                const rankingItem = document.createElement('div');
+                rankingItem.className = `ranking-item ${currentPlayer && entry.id === currentPlayer?.id ? 'current-player' : ''}`;
+                
+                let content = '';
+                if (currentRankingView === 'daily') {
+                    content = `
+                        <span class="ranking-position">${index + 1}.</span>
+                        <span class="ranking-name">${entry.name}</span>
+                        <span class="ranking-score">${entry.score}</span>
+                    `;
+                } else {
+                    content = `
+                        <span class="ranking-position">${index + 1}.</span>
+                        <span class="ranking-name">${entry.name}</span>
+                        <span class="ranking-level">Lv.${entry.level}</span>
+                        <span class="ranking-score">${entry.score}</span>
+                    `;
+                }
+                
+                rankingItem.innerHTML = content;
+                
+                // Adicionar stats para ranking permanente
+                if (currentRankingView === 'permanent') {
+                    const statsDiv = document.createElement('div');
+                    statsDiv.className = 'ranking-stats';
+                    statsDiv.innerHTML = `
+                        <span>✓${entry.correctAnswers}</span>
+                        <span>🔥${entry.bestStreak}</span>
+                    `;
+                    rankingItem.appendChild(statsDiv);
+                }
+                
+                rankingList.appendChild(rankingItem);
+            });
+        }
+
+        // NOVO: Salvar score nos rankings
+        function saveScore() {
+            if (!currentPlayer) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Dados completos do jogador
+            const playerData = {
+                ...currentPlayer,
+                score: score,
+                level: level,
+                correctAnswers: correctAnswers,
+                bestStreak: bestStreak,
+                date: today,
+                timestamp: new Date().getTime()
+            };
+
+            // Salvar no ranking diário
+            dailyRanking.push({...playerData});
+            dailyRanking = dailyRanking.slice(-100); // Manter apenas últimos 100 registros
+            
+            // Salvar no ranking permanente
+            permanentRanking.push({...playerData});
+            permanentRanking = permanentRanking.slice(-500); // Manter últimos 500 registros
+
+            // Atualizar localStorage
+            localStorage.setItem('OneOut_daily_ranking', JSON.stringify(dailyRanking));
+            localStorage.setItem('OneOut_permanent_ranking', JSON.stringify(permanentRanking));
+
+            updateRanking();
+        }
+
+        // NOVO: Buscar histórico do jogador
+        function getPlayerHistory(playerId) {
+            return permanentRanking
+                .filter(entry => entry.id === playerId)
+                .sort((a, b) => b.timestamp - a.timestamp);
+        }
+
+        // NOVO: Estatísticas do jogador
+        function getPlayerStats(playerId) {
+            const playerGames = getPlayerHistory(playerId);
+            if (playerGames.length === 0) return null;
+
+            const bestScore = Math.max(...playerGames.map(game => game.score));
+            const totalGames = playerGames.length;
+            const totalCorrect = playerGames.reduce((sum, game) => sum + game.correctAnswers, 0);
+            const bestLevel = Math.max(...playerGames.map(game => game.level));
+            const bestStreak = Math.max(...playerGames.map(game => game.bestStreak));
+
+            return {
+                bestScore,
+                totalGames,
+                totalCorrect,
+                bestLevel,
+                bestStreak,
+                lastPlayed: playerGames[0].date
+            };
+        }
+
+        // MODIFICADO: Iniciar jogo - verificar se jogador existe
+        function startGame() {
+            const playerName = playerNameInput.value.trim();
+            if (!playerName) {
+                alert('Please enter your name!');
+                return;
+            }
+
+            // Verificar se jogador já existe no ranking permanente
+            const existingPlayer = permanentRanking.find(entry => 
+                entry.name.toLowerCase() === playerName.toLowerCase()
+            );
+
+            if (existingPlayer) {
+                // Usar ID existente
+                currentPlayer = {
+                    id: existingPlayer.id,
+                    name: playerName,
+                    score: 0,
+                    level: 1,
+                    date: new Date().toISOString().split('T')[0]
+                };
+            } else {
+                // Novo jogador
+                currentPlayer = {
+                    id: generatePlayerId(),
+                    name: playerName,
+                    score: 0,
+                    level: 1,
+                    date: new Date().toISOString().split('T')[0]
+                };
+            }
+
+            playerNameDisplay.textContent = playerName;
+            playerIdDisplay.textContent = `ID: ${currentPlayer.id}`;
+
+            // Mostrar estatísticas se jogador existente
+            if (existingPlayer) {
+                const stats = getPlayerStats(currentPlayer.id);
+                if (stats) {
+                    playerIdDisplay.innerHTML += `<br><small>Best: ${stats.bestScore} pts (Lv.${stats.bestLevel})</small>`;
+                }
+            }
+
+            loginScreen.style.display = 'none';
+            mainGame.style.display = 'grid';
+            footer.style.display = 'block';
+
+            updateWordsList();
+            updateRanking();
+            initGame();
+        }
+
+        // ... (mantenha o resto das funções existentes) ...
+
+        // MODIFICADO: Finalizar jogo - mostrar estatísticas comparativas
+        function endGame() {
+            gameActive = false;
+            if (autoNextTimer) {
+                clearInterval(autoNextTimer);
+            }
+            
+            saveScore();
+            
+            finalScoreElement.textContent = score;
+            finalCorrectElement.textContent = correctAnswers;
+            finalStreakElement.textContent = bestStreak;
+            finalLevelElement.textContent = level;
+            
+            const medalsCount = Object.values(medals).filter(Boolean).length;
+            finalMedalsElement.textContent = medalsCount;
+            
+            // Mostrar comparação com recorde pessoal
+            if (currentPlayer) {
+                const stats = getPlayerStats(currentPlayer.id);
+                if (stats && stats.bestScore > score) {
+                    const comparisonDiv = document.createElement('div');
+                    comparisonDiv.style.margin = '10px 0';
+                    comparisonDiv.style.padding = '10px';
+                    comparisonDiv.style.background = '#f0f7ff';
+                    comparisonDiv.style.borderRadius = '8px';
+                    comparisonDiv.style.fontSize = '0.9em';
+                    comparisonDiv.innerHTML = `🏆 Your best: <strong>${stats.bestScore} points</strong> (Level ${stats.bestLevel})`;
+                    
+                    const finalStats = document.querySelector('.game-over > div:nth-child(4)');
+                    finalStats.appendChild(comparisonDiv);
+                }
+            }
+            
+            gameScreen.style.display = 'none';
+            gameOverScreen.style.display = 'block';
+        }
+
+        // ... (mantenha o resto do código existente) ...
+    </script>
+</body>
+</html>
