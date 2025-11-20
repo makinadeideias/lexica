@@ -136,7 +136,7 @@
             margin-top: 5px;
         }
 
-        .jedi-bonus {
+        .starwars-bonus {
             color: #ff6b00;
             animation: glow 0.5s ease-in-out;
         }
@@ -434,8 +434,8 @@
     <audio id="correctSound">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
     </audio>
-    <audio id="jediSound">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-spell-389.mp3" type="audio/mpeg">
+    <audio id="starwarsSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-win-4.mp3" type="audio/mpeg">
     </audio>
     <audio id="levelUpSound">
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
@@ -445,7 +445,7 @@
     </audio>
 
     <script>
-        // Complete categories database with all original words
+        // Complete categories database with ALL categories
         const categories = {
             "Sports and Physical Activities": "soccer, basketball, volleyball, tennis, table tennis, baseball, softball, golf, swimming, running, jogging, walking, cycling, mountain biking, boxing, karate, judo, taekwondo, wrestling, gymnastics, surfing, skateboarding, skiing, snowboarding, ice skating, hockey, field hockey, rugby, cricket, badminton, handball, fencing, rowing, sailing, canoeing, kayaking, climbing, hiking, diving, water polo, horse riding, archery, yoga, pilates, dance, aerobics, weightlifting, crossfit, martial arts, triathlon, snorkeling, scuba diving, windsurfing, kitesurfing, paddleboarding, parkour, stretching, cheerleading, roller skating, darts, billiards, bowling, frisbee, hiking trail, mountain climbing, rock climbing, ziplining, camping, trekking, canoe sprint, swimming relay, sprinting, marathon, obstacle race, duathlon, pentathlon, decathlon, trampoline, high jump, long jump, pole vault, shot put, discus throw, javelin throw, bench press, push-ups, sit-ups, squats, fitness training, cardio workout, strength training, yoga pose, meditation, Zumba, ballroom dancing, ballet, hip hop dance, breakdancing, folk dance, jump rope, skipping, tag, capture the flag, hide and seek, kickball, dodgeball, tug of war, sack race, relay games, hopscotch, freeze dance, cycling race, trail running, canoe racing, sailing regatta, roller derby, skating rink, slalom skiing, snowshoeing, curling, ice climbing".split(',').map(x => x.trim()),
 
@@ -525,7 +525,7 @@
 
         // Audio Elements
         const correctSound = document.getElementById('correctSound');
-        const jediSound = document.getElementById('jediSound');
+        const starwarsSound = document.getElementById('starwarsSound');
         const levelUpSound = document.getElementById('levelUpSound');
         const wrongSound = document.getElementById('wrongSound');
 
@@ -652,15 +652,15 @@
                 correctSound.currentTime = 0;
                 correctSound.play().catch(e => console.log('Audio error:', e));
 
-                // Jedi Bonus every 5 correct answers
-                if (gameState.streak % 5 === 0) {
-                    points += 100;
-                    bonusText = ` +100 Jedi Bonus! ⚡`;
-                    feedback.classList.add('jedi-bonus');
+                // Star Wars Bonus every 10 correct answers
+                if (gameState.streak % 10 === 0) {
+                    points += 150; // Increased bonus for 10 streaks
+                    bonusText = ` +150 Star Wars Bonus! 🌟`;
+                    feedback.classList.add('starwars-bonus');
                     
-                    // Play Jedi sound
-                    jediSound.currentTime = 0;
-                    jediSound.play().catch(e => console.log('Audio error:', e));
+                    // Play Star Wars sound
+                    starwarsSound.currentTime = 0;
+                    starwarsSound.play().catch(e => console.log('Audio error:', e));
                 }
 
                 gameState.score += points;
