@@ -445,7 +445,7 @@
     </audio>
 
     <script>
-        // Complete categories database with ALL categories
+        // Complete categories database - REMOVED Authors, ADDED Singers
         const categories = {
             "Sports and Physical Activities": "soccer, basketball, volleyball, tennis, table tennis, baseball, softball, golf, swimming, running, jogging, walking, cycling, mountain biking, boxing, karate, judo, taekwondo, wrestling, gymnastics, surfing, skateboarding, skiing, snowboarding, ice skating, hockey, field hockey, rugby, cricket, badminton, handball, fencing, rowing, sailing, canoeing, kayaking, climbing, hiking, diving, water polo, horse riding, archery, yoga, pilates, dance, aerobics, weightlifting, crossfit, martial arts, triathlon, snorkeling, scuba diving, windsurfing, kitesurfing, paddleboarding, parkour, stretching, cheerleading, roller skating, darts, billiards, bowling, frisbee, hiking trail, mountain climbing, rock climbing, ziplining, camping, trekking, canoe sprint, swimming relay, sprinting, marathon, obstacle race, duathlon, pentathlon, decathlon, trampoline, high jump, long jump, pole vault, shot put, discus throw, javelin throw, bench press, push-ups, sit-ups, squats, fitness training, cardio workout, strength training, yoga pose, meditation, Zumba, ballroom dancing, ballet, hip hop dance, breakdancing, folk dance, jump rope, skipping, tag, capture the flag, hide and seek, kickball, dodgeball, tug of war, sack race, relay games, hopscotch, freeze dance, cycling race, trail running, canoe racing, sailing regatta, roller derby, skating rink, slalom skiing, snowshoeing, curling, ice climbing".split(',').map(x => x.trim()),
 
@@ -481,9 +481,9 @@
 
             "Superheroes": "Superman, Batman, Wonder Woman, Spider-Man, Iron Man, Captain America, Thor, Hulk, Black Widow, Flash, Aquaman, Wolverine, Deadpool, Captain Marvel, Black Panther, Doctor Strange, Ant-Man, Wasp, Hawkeye, Green Lantern, Green Arrow, Supergirl, Batgirl, Robin, Nightwing, Catwoman, Harley Quinn, Joker, Lex Luthor, Thanos, Loki, Magneto, Professor X, Jean Grey, Cyclops, Storm, Rogue, Gambit, Beast, Iceman, Human Torch, Invisible Woman, Mr. Fantastic, Thing, Daredevil, Punisher, Blade, Ghost Rider, Hellboy, Spawn, Invincible, Omni-Man, Homelander, Starlight, Queen Maeve, A-Train, The Deep, Black Noir, Translucent, Stormfront, Soldier Boy, Shazam, Blue Beetle, Static Shock, Miles Morales, Gwen Stacy, Miguel O'Hara, Peter Parker, She-Hulk, Matt Murdock, Frank Castle, Peter Quill, Gamora, Rocket, Groot, Drax, Nebula, Mantis, Nick Fury, Killmonger, Shuri, Okoye, Nakia, M'Baku, Erik Killmonger, Red Skull, Ultron, Kang, Galactus, Doctor Doom, Venom, Carnage, Sandman, Doctor Octopus, Green Goblin, Kingpin, Bullseye, Elektra, Jessica Jones, Luke Cage, Iron Fist".split(',').map(x => x.trim()),
 
-            "Book Titles": "The Odyssey, The Iliad, Don Quixote, The Divine Comedy, Hamlet, King Lear, Pride and Prejudice, 1984, Moby-Dick, Crime and Punishment, War and Peace, In Search of Lost Time, Ulysses, The Great Gatsby, One Hundred Years of Solitude, The Trial, The Picture of Dorian Gray, Madame Bovary, To Kill a Mockingbird, The Old Man and the Sea, The Catcher in the Rye, Dom Casmurro, The Devil to Pay in the Backlands, Barren Lives, Captains of the Sand, The Hour of the Star, Blindness, Wuthering Heights, Jane Eyre, Frankenstein, Mrs. Dalloway, The Second Sex, The Song of Achilles, Dune, The Lord of the Rings, The Hitchhiker's Guide to the Galaxy, Brave New World, Fahrenheit 451, The Handmaid's Tale, Animal Farm, One Thousand and One Nights, The Count of Monte Cristo, The Brothers Karamazov, The Stranger, Beloved, Things Fall Apart, Love in the Time of Cholera, The Alchemist".split(',').map(x => x.trim()),
+            "Book Titles": "The Odyssey, The Iliad, Don Quixote, The Divine Comedy, Hamlet, King Lear, Pride and Prejudice, 1984, Moby-Dick, Crime and Punishment, War and Peace, In Search of Lost Time, Ulysses, The Great Gatsby, One Hundred Years of Solitude, The Trial, The Picture of Dorian Gray, Madame Bovary, To Kill a Mockingbird, The Old Man and the Sea, The Catcher in the Rye, Dom Casmurro, The Devil to Pay in the Backlands, Barren Lives, Captains of the Sand, The Hour of the Star, Blindness, Wuthering Heights, Jane Eyre, Frankenstein, Mrs. Dalloway, The Second Sex, The Song of Achilles, Dune, The Lord of the Rings, The Hitchhiker's Guide to the Galaxy, Brave New World, Fahrenheit 451, The Handmaid's Tale, Animal Farm, One Thousand and One Nights, The Count of Monte Cristo, The Brothers Karamazov, The Stranger, Beloved, Things Fall Apart, Love in the Time of Cholera, The Alchemist".split(',').map(x => x.trim())
 
-            "Authors": "Homer, Sappho, Virgil, Dante Alighieri, William Shakespeare, Miguel de Cervantes, Jane Austen, Charles Dickens, Charlotte Brontë, Emily Brontë, Anne Brontë, Leo Tolstoy, Fyodor Dostoevsky, Anton Chekhov, Victor Hugo, Gustave Flaubert, Emily Dickinson, Walt Whitman, Edgar Allan Poe, Franz Kafka, James Joyce, Virginia Woolf, Marcel Proust, Ernest Hemingway, William Faulkner, George Orwell, Albert Camus, Gabriel García Márquez, Julio Cortázar, Jorge Luis Borges, Pablo Neruda, Machado de Assis, João Guimarães Rosa, Clarice Lispector, Graciliano Ramos, Jorge Amado, Cecília Meireles, Rachel de Queiroz, José Saramago, Fernando Pessoa, Luís de Camões, Chinua Achebe, Haruki Murakami, Toni Morrison, Philip Roth, J.R.R. Tolkien, Agatha Christie, Mary Shelley, Simone de Beauvoir, Marguerite Yourcenar, Isabel Allende, Ursula K. Le Guin, Margaret Atwood, Sylvia Plath, Lygia Fagundes Telles, George R.R. Martin, Stephen King, James Baldwin, Oscar Wilde, F. Scott Fitzgerald".split(',').map(x => x.trim())
+            // REMOVED: "Authors" category
         };
 
         // Game state
@@ -495,6 +495,11 @@
             gameActive: true,
             currentPlayer: null
         };
+
+        // Ranking system - FIXED to save player names
+        let dailyRanking = JSON.parse(localStorage.getItem('OneOut_daily_ranking')) || [];
+        let permanentRanking = JSON.parse(localStorage.getItem('OneOut_permanent_ranking')) || [];
+        let currentRankingView = 'daily';
 
         // DOM Elements
         const loginScreen = document.getElementById('loginScreen');
@@ -543,7 +548,8 @@
             tab.addEventListener('click', function() {
                 document.querySelectorAll('.ranking-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                updateRanking(this.dataset.tab);
+                currentRankingView = this.dataset.tab;
+                updateRanking();
             });
         });
 
@@ -568,7 +574,7 @@
             mainGame.style.display = 'grid';
 
             initGame();
-            updateRanking('daily');
+            updateRanking();
         }
 
         function generateId() {
@@ -654,7 +660,7 @@
 
                 // Star Wars Bonus every 10 correct answers
                 if (gameState.streak % 10 === 0) {
-                    points += 150; // Increased bonus for 10 streaks
+                    points += 150;
                     bonusText = ` +150 Star Wars Bonus! 🌟`;
                     feedback.classList.add('starwars-bonus');
                     
@@ -730,26 +736,83 @@
             correctDisplay.textContent = gameState.correctAnswers;
         }
 
-        function updateRanking(type) {
-            // Simulate ranking data
-            const rankingData = [
-                { name: gameState.currentPlayer?.name || "Player", score: gameState.score, level: gameState.level },
-                { name: "John", score: 450, level: 8 },
-                { name: "Sarah", score: 320, level: 6 },
-                { name: "Mike", score: 280, level: 5 },
-                { name: "Emma", score: 190, level: 4 }
-            ].sort((a, b) => b.score - a.score);
+        // FIXED: Update ranking to save and display player names properly
+        function updateRanking() {
+            let rankingData = [];
+            const today = new Date().toISOString().split('T')[0];
+
+            if (currentRankingView === 'daily') {
+                // Get today's scores
+                rankingData = dailyRanking
+                    .filter(entry => entry.date === today)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 10);
+            } else {
+                // Get all-time best scores per player
+                const bestScores = {};
+                permanentRanking.forEach(entry => {
+                    if (!bestScores[entry.name] || entry.score > bestScores[entry.name].score) {
+                        bestScores[entry.name] = {
+                            name: entry.name,
+                            score: entry.score,
+                            level: entry.level
+                        };
+                    }
+                });
+
+                rankingData = Object.values(bestScores)
+                    .sort((a, b) => b.score - a.score)
+                    .slice(0, 10);
+            }
 
             rankingList.innerHTML = '';
+
+            if (rankingData.length === 0) {
+                rankingList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No scores yet</div>';
+                return;
+            }
+
             rankingData.forEach((player, index) => {
                 const item = document.createElement('div');
-                item.className = `ranking-item ${player.name === gameState.currentPlayer?.name ? 'current-player' : ''}`;
+                const isCurrentPlayer = gameState.currentPlayer && 
+                    player.name === gameState.currentPlayer.name;
+                
+                item.className = `ranking-item ${isCurrentPlayer ? 'current-player' : ''}`;
                 item.innerHTML = `
                     <span>${index + 1}. ${player.name}</span>
                     <span>${player.score} pts (Lv.${player.level})</span>
                 `;
                 rankingList.appendChild(item);
             });
+        }
+
+        // FIXED: Save score with player name
+        function saveScore() {
+            if (!gameState.currentPlayer) return;
+
+            const today = new Date().toISOString().split('T')[0];
+            
+            const playerData = {
+                name: gameState.currentPlayer.name,
+                score: gameState.score,
+                level: gameState.level,
+                date: today,
+                timestamp: new Date().getTime()
+            };
+
+            // Save to daily ranking
+            dailyRanking.push(playerData);
+            dailyRanking = dailyRanking.slice(-100); // Keep last 100 entries
+            
+            // Save to permanent ranking
+            permanentRanking.push(playerData);
+            permanentRanking = permanentRanking.slice(-500); // Keep last 500 entries
+
+            // Save to localStorage
+            localStorage.setItem('OneOut_daily_ranking', JSON.stringify(dailyRanking));
+            localStorage.setItem('OneOut_permanent_ranking', JSON.stringify(permanentRanking));
+
+            updateRanking();
         }
 
         function quitGame() {
@@ -760,6 +823,8 @@
 
         function endGame() {
             gameState.gameActive = false;
+            saveScore(); // FIXED: Save score when game ends
+            
             finalScore.textContent = gameState.score;
             finalLevel.textContent = gameState.level;
             finalCorrect.textContent = gameState.correctAnswers;
