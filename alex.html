@@ -430,17 +430,60 @@
         </div>
     </div>
 
+    <!-- Audio Elements -->
+    <audio id="correctSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="jediSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-spell-389.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="levelUpSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrongSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
-        // Categories in English
+        // Complete categories database with all original words
         const categories = {
-            "Sports": ["soccer", "basketball", "tennis", "swimming", "cycling", "boxing", "golf", "running"],
-            "Food": ["pizza", "burger", "sushi", "pasta", "salad", "ice cream", "steak", "soup"],
-            "Countries": ["USA", "Brazil", "Japan", "France", "Australia", "Canada", "Germany", "Italy"],
-            "Colors": ["red", "blue", "green", "yellow", "purple", "orange", "pink", "black"],
-            "Animals": ["dog", "cat", "elephant", "lion", "bird", "fish", "tiger", "bear"],
-            "Technology": ["computer", "phone", "tablet", "camera", "drone", "robot", "laptop", "watch"],
-            "Professions": ["doctor", "teacher", "engineer", "chef", "artist", "pilot", "driver", "nurse"],
-            "Transportation": ["car", "bus", "train", "plane", "bicycle", "ship", "motorcycle", "subway"]
+            "Sports and Physical Activities": "soccer, basketball, volleyball, tennis, table tennis, baseball, softball, golf, swimming, running, jogging, walking, cycling, mountain biking, boxing, karate, judo, taekwondo, wrestling, gymnastics, surfing, skateboarding, skiing, snowboarding, ice skating, hockey, field hockey, rugby, cricket, badminton, handball, fencing, rowing, sailing, canoeing, kayaking, climbing, hiking, diving, water polo, horse riding, archery, yoga, pilates, dance, aerobics, weightlifting, crossfit, martial arts, triathlon, snorkeling, scuba diving, windsurfing, kitesurfing, paddleboarding, parkour, stretching, cheerleading, roller skating, darts, billiards, bowling, frisbee, hiking trail, mountain climbing, rock climbing, ziplining, camping, trekking, canoe sprint, swimming relay, sprinting, marathon, obstacle race, duathlon, pentathlon, decathlon, trampoline, high jump, long jump, pole vault, shot put, discus throw, javelin throw, bench press, push-ups, sit-ups, squats, fitness training, cardio workout, strength training, yoga pose, meditation, Zumba, ballroom dancing, ballet, hip hop dance, breakdancing, folk dance, jump rope, skipping, tag, capture the flag, hide and seek, kickball, dodgeball, tug of war, sack race, relay games, hopscotch, freeze dance, cycling race, trail running, canoe racing, sailing regatta, roller derby, skating rink, slalom skiing, snowshoeing, curling, ice climbing".split(',').map(x => x.trim()),
+
+            "School Supplies and Material": "pencil, pen, tablet, eraser, ruler, sharpener, notebook, book, backpack, glue, scissors, paper, marker, crayon, highlighter, pencil case, chalk, blackboard, whiteboard, desk, chair, stapler, paper clip, binder clip, tape, brush, paint, folder, sheet, card, compass, calculator, dictionary, sticky notes, glue stick, binder, sketchbook, pen drive, file, cover, ink, divider, push pin, clipboard, drawing pad, notepad, poster, textbook, workbook, assignment, exam, quiz, test, notebook paper, colored pencil, gel pen, fountain pen, correction fluid, correction tape, protractor, set square, ruler set, geometry box, smartboard, projector, screen, laser pointer, flashcard, label, portfolio, envelope, scissors, pen holder, desk lamp, eraser cap, pencil sharpener, drawing book, art paper, paper, glue bottle, stapler remover, eraser block, whiteboard marker, dry erase marker, permanent marker, brush pen, sticky label, binder divider, plastic folder, transparent sheet, report cover, document file, puncher, clip holder, sticky tape, masking tape, double-sided tape, geometry compass, protractor ruler, triangle ruler, ink bottle, correction pen, colored paper, chalk box, smart pen, digital notebook, tablet, keyboard, mouse, monitor, projector screen, headset, laminator, book cover, book mark, paperweight, pencil grip, writing pad, test paper, homework sheet, notebook divider, attendance sheet, grade book".split(',').map(x => x.trim()),
+
+            "Transportation": "car, bus, truck, van, motorcycle, bicycle, scooter, skateboard, train, subway, tram, metro, driver, lane, road, street, street sign, monorail, airplane, helicopter, jet, glider, hot air balloon, boat, ship, ferry, yacht, canoe, kayak, sailboat, cruise ship, submarine, hovercraft, taxi, cab, minibus, pickup truck, ambulance, fire truck, police car, tow truck, delivery truck, garbage truck, mail truck, tractor, bulldozer, excavator, crane, forklift, trolley, cable car, funicular, caravan, camper, motorhome, limousine, convertible, sports car, sedan, hatchback, station wagon, jeep, electric car, hybrid car, fuel truck, tanker, snowmobile, golf cart, go-kart, segway, hoverboard, jet ski, speedboat, fishing boat, cargo ship, container ship, oil tanker, rowboat, raft, dinghy, paddleboat, gondola, ferryboat, catamaran, tricycle, unicycle, horse, donkey cart, camel, carriage, wagon, sleigh, sledge, motorbike, delivery bike, skateboard, horse backriding, rickshaw, tuk-tuk, bus stop, train station, airport, helipad, port, harbor, dock, pier, bridge, tunnel, highway, road, street, lane, crosswalk, traffic light, signpost, gas station, toll booth, rest stop, parking lot, car wash, repair shop, garage, roundabout, overpass, underpass, railway, runway, boarding gate, luggage cart, ticket, seatbelt, steering wheel, engine, tire, wheel, horn, headlight, rearview mirror, windshield, gear, brake, accelerator, dashboard, airbag, fuel pump".split(',').map(x => x.trim()),
+
+            "Food and Drinks": "bread, rice, beans, meat, chicken, fish, egg, cheese, milk, butter, yogurt, cream, oil, sugar, salt, pepper, garlic, onion, tomato, lettuce, carrot, potato, corn, cucumber, cabbage, spinach, broccoli, cauliflower, pumpkin, peas, lentils, chickpeas, pasta, spaghetti, macaroni, pizza, hamburger, hot dog, sandwich, salad, soup, steak, sausage, bacon, ham, turkey, shrimp, crab, lobster, oyster, sushi, omelet, toast, pancake, waffle, cereal, oatmeal, porridge, honey, jam, jelly, peanut butter, chocolate, candy, cookie, biscuit, cake, pie, donut, muffin, brownie, ice cream, pudding, fruit salad, juice, water, soda, coffee, tea, milkshake, smoothie, lemonade, beer, wine, cocktail, champagne, hot chocolate, cocoa, espresso, cappuccino, green tea, jaboticaba, iced tea, sparkling water, mineral water, coconut water, energy drink, sports drink, tomato sauce, ketchup, mustard, mayonnaise, soy sauce, barbecue sauce, chili sauce, vinegar, salad dressing, french fries, mashed potatoes, roasted chicken, grilled fish, noodles, fried rice, lasagna, stew, curry, taco, burrito, nachos, guacamole, kebab, falafel, hummus, pita bread, croissant, baguette, apple pie, chocolate cake, carrot cake, yogurt parfait, popcorn, pretzel, chips".split(',').map(x => x.trim()),
+
+            "Technology and Gadgets": "computer, laptop, tablet, smartphone, cellphone, desktop, monitor, keyboard, mouse, touchpad, webcam, printer, scanner, projector, microphone, speaker, headphones, earphones, smart watch, camera, video camera, drone, USB drive, hard drive, SSD, memory card, charger, battery, cable, adapter, router, modem, wifi, bluetooth, screen, display, internet, web, gps, phone, headphone, tv, radio, smart tv, cellphone, smart phone, mobile phone, stylus, joystick, gamepad, console, controller, VR headset, smart glasses, power bank, selfie stick, tripod, graphics card, motherboard, processor, cpu, gpu, ram, power supply, fan, cooling system, operating system, software, app, browser, website, link, password, email, file, folder, cloud, data, storage, download, upload, backup, update, network, server, database, code, program, antivirus, firewall, robot, ai, algorithm, chatbot, printer ink, 3d printer, fingerprint sensor, face recognition, qr code, gps, satellite, smartwatch, iot, router, touchscreen, processor, graphics card".split(',').map(x => x.trim()),
+
+            "Toys and Games": "ball, cards, doll, teddy bear, tablet, videogame, dice, action figure, puzzle, board game, card game, dominoes, chess, checkers, marbles, yo-yo, kite, toy car, toy truck, toy train, toy plane, toy boat, toy robot, building blocks, lego, play dough, clay, jump rope, hula hoop, spinning top, slingshot, frisbee, scooter, skateboard, roller skates, tricycle, bicycle, water gun, bubble blower, puppet, stuffed animal, car track, race car, remote control car, magic set, costume, mask, toy kitchen, cash register, dollhouse, stroller toy, toy sword, shield, toy drum, xylophone, keyboard toy, flute, harmonica, tambourine, toy piano, karaoke microphone, video game".split(',').map(x => x.trim()),
+
+            "Colors and Shapes": "red, blue, yellow, green, orange, purple, pink, black, white, gray, brown, beige, silver, gold, turquoise, cyan, magenta, navy, olive, maroon, violet, indigo, lime, teal, coral, peach, mint, ivory, lavender, cream, bronze, chocolate, plum, mustard, rust, emerald, sapphire, ruby, aqua, lilac, tan, khaki, charcoal, sky blue, forest green, sea green, baby blue, pale pink, hot pink, neon green, light gray, dark gray, pastel yellow, bright red, burgundy, denim blue, copper, metallic, transparent, opaque, glossy, dotted, striped, solid, pastel, primary, secondary, tertiary, cube, sphere, cone, cylinder, pyramid, circle, triangle, square, rectangle, oval, diamond, star, heart, cross".split(',').map(x => x.trim()),
+
+            "Parts of the Body": "head, hair, forehead, face, eye, eyebrow, eyelash, eyelid, nose, nostril, mouth, lip, tooth, teeth, tongue, chin, cheek, jaw, ear, feet, teeth, earlobe, neck, throat, shoulder, arm, elbow, wrist, hand, palm, finger, thumb, index finger, middle finger, ring finger, little finger, nail, knuckle, chest, back, spine, waist, hip, stomach, belly, navel, abdomen, rib, heart, lung, liver, kidney, bladder, intestines, brain, skull, bone, muscle, joint, skin, vein, artery, blood, nerve, leg, thigh, knee, shin, calf, ankle, foot, heel, sole, toe".split(',').map(x => x.trim()),
+
+            "Famous Cities": "New York, Los Angeles, Sao Paulo, Belo Horizonte, Contagem, Betim, Sabará, Ouro Preto, Mariana, Chicago, Houston, Miami, San Francisco, Boston, Washington, Seattle, Las Vegas, London, Manchester, Liverpool, Birmingham, Edinburgh, Glasgow, Paris, Marseille, Lyon, Nice, Toulouse, Berlin, Munich, Frankfurt, Hamburg, Cologne, Stuttgart, Rome, Milan, Venice, Florence, Naples, Madrid, Barcelona, Valencia, Seville, Lisbon, Porto, Amsterdam, Rotterdam, The Hague, Brussels, Antwerp, Zurich, Geneva, Vienna, Prague, Budapest, Warsaw, Krakow, Oslo, Stockholm, Copenhagen, Helsinki, Reykjavik, Moscow, Saint Petersburg, Istanbul, Athens, Havana, Cairo, Johannesburg, Cape Town, Nairobi, Lagos, Casablanca, Tunis, Marrakech, Dubai, Abu Dhabi, Doha, Riyadh, Jeddah, Jerusalem, Tel Aviv, New Delhi, Mumbai, Bangalore, Kolkata, Chennai, Singapore, Kuala Lumpur, Bangkok, Jakarta, Manila, Beijing, Shanghai, Guangzhou, Hong Kong, Taipei, Tokyo, Osaka, Kyoto, Seoul, Busan, Sydney, Melbourne, Brisbane, Auckland, Wellington, Toronto, Vancouver, Montreal, Ottawa, Mexico City, Guadalajara, Monterrey, Lima, Santiago, Buenos Aires, Rio de Janeiro, Brasília, Bogotá, Medellín, Quito, Caracas, Santo Domingo, San Juan, Panama City, San José, Kingston, Port of Spain, Montego Bay, Kuwait City, Muscat, Manama, Karachi, Islamabad, Dhaka, Colombo, Kathmandu".split(',').map(x => x.trim()),
+
+            "Professions and Occupations": "teacher, student, professor, principal, doctor, nurse, dentist, surgeon, pharmacist, veterinarian, psychologist, therapist, engineer, architect, mechanic, electrician, plumber, carpenter, builder, mason, painter, welder, driver, pilot, flight attendant, sailor, captain, firefighter, police officer, detective, security guard, soldier, lawyer, judge, secretary, receptionist, accountant, banker, cashier, economist, manager, director, CEO, supervisor, consultant, analyst, programmer, software developer, web designer, data scientist, IT technician, system administrator, graphic designer, illustrator, animator, photographer, videographer, filmmaker, journalist, reporter, editor, writer, author, poet, translator, interpreter, librarian, researcher, scientist, biologist, chemist, physicist, mathematician, statistician, teacher assistant, tutor, coach, trainer, athlete, dancer, singer, musician, composer, actor, actress, model, painter, sculptor, fashion designer, tailor, hairdresser, barber, beautician, makeup artist, chef, cook, baker, waiter, waitress, bartender, butcher, fishmonger, farmer, gardener, florist, janitor, cleaner, housekeeper, delivery driver, courier, postman, shop assistant, salesperson, real estate agent, insurance agent, travel agent, tour guide, hotel manager, concierge, flight controller, bus driver, taxi driver, truck driver, train conductor, construction worker, crane operator, miner, factory worker, warehouse worker, technician, influencer, youtuber, AI specialist, mechanic assistant, security officer, lifeguard, babysitter, nanny, caregiver, social worker, volunteer, politician, ambassador, diplomat, president, governor, mayor, priest, monk, nun".split(',').map(x => x.trim()),
+
+            "Nationalities": "American, Brazilian, Argentinian, Chilean, Peruvian, Colombian, Venezuelan, Uruguayan, Paraguayan, Bolivian, Mexican, Canadian, Guatemalan, Costa Rican, Panamanian, Cuban, Dominican, Puerto Rican, Haitian, Jamaican, Trinidadian, Bahamian, English, British, Scottish, Welsh, Irish, French, Spanish, Portuguese, Italian, German, Dutch, Belgian, Swiss, Austrian, Danish, Norwegian, Swedish, Finnish, Icelandic, Polish, Czech, Slovak, Hungarian, Romanian, Bulgarian, Greek, Turkish, Russian, Ukrainian, Chinese, Japanese, Korean, Taiwanese, Mongolian, Filipino, Vietnamese, Thai, Malaysian, Singaporean, Indonesian, Indian, Pakistani, Bangladeshi, Sri Lankan, Nepali, Bhutanese, Maldivian, Saudi, Emirati, Qatari, Kuwaiti, Omani, Yemeni, Palestinian, Jordanian, Lebanese, Syrian, Israeli, Egyptian, Moroccan, Algerian, Tunisian, Libyan, Sudanese, Ethiopian, Somali, Kenyan, Ugandan, Tanzanian, Rwandan, Congolese, Zambian, Zimbabwean, Mozambican, Angolan, Namibian, Botswanan, South African, Malagasy, Mauritian, Australian, New Zealander, Fijian, Samoan, Tongan, Papuan, Micronesian, Tahitian, Hawaiian".split(',').map(x => x.trim()),
+
+            "Countries": "Afghanistan, Albania, Algeria, Andorra, Angola, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belgium, Belize, Benin, Bhutan, Bolivia, Bosnia and Herzegovina, Botswana, Brazil, Brunei, Bulgaria, Burkina Faso, Burundi, Cambodia, Cameroon, Canada, Cape Verde, Central African Republic, Chad, Chile, China, Colombia, Comoros, Congo, Costa Rica, Cuba, Croatia, Cyprus, Czech Republic, Denmark, Djibouti, Dominica, Dominican Republic, East Timor, Ecuador, Egypt, El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini, Ethiopia, Fiji, Finland, France, Gabon, Gambia, Georgia, Germany, Ghana, Greece, Grenada, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Italy, Ivory Coast, Jamaica, Japan, Jordan, Kazakhstan, Kenya, Kiribati, Kuwait, Kyrgyzstan, Laos, Latvia, Lebanon, Lesotho, Liberia, Libya, Liechtenstein, Lithuania, Luxembourg, Madagascar, Malawi, Malaysia, Maldives, Mali, Malta, Mauritania, Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Morocco, Mozambique, Myanmar, Namibia, Nauru, Nepal, Netherlands, New Zealand, Nicaragua, Niger, Nigeria, North Korea, North Macedonia, Norway, Oman, Pakistan, Palau, Panama, Papua New Guinea, Paraguay, Palestine, Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia, Rwanda, Saint Lucia, Saint Kitts and Nevis, Saint Vincent and the Grenadines, Samoa, San Marino, Saudi Arabia, Senegal, Serbia, Seychelles, Sierra Leone, Singapore, Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, South Korea, South Sudan, Spain, Sri Lanka, Sudan, Suriname, Sweden, Switzerland, Syria, Taiwan, Tajikistan, Tanzania, Thailand, Togo, Tonga, Trinidad and Tobago, Tunisia, Turkey, Turkmenistan, Tuvalu, Uganda, Ukraine, United Arab Emirates, United Kingdom, United States, Uruguay, Uzbekistan, Vanuatu, Vatican City, Venezuela, Vietnam, Yemen, Zambia, Zimbabwe".split(',').map(x => x.trim()),
+
+            "Fruits and Vegetables": "apple, banana, jaboticaba, cagaita, umbu, caja, orange, pear, grape, mango, papaya, pineapple, watermelon, melon, strawberry, raspberry, blueberry, blackberry, cherry, peach, plum, apricot, kiwi, lemon, lime, coconut, avocado, fig, date, pomegranate, guava, passion fruit, lychee, tangerine, grapefruit, cantaloupe, honeydew, starfruit, dragon fruit, jackfruit, persimmon, olive, tomato, cucumber, lettuce, cabbage, spinach, kale, arugula, carrot, beet, radish, turnip, potato, sweet potato, yam, onion, garlic, leek, scallion, celery, zucchini, eggplant, pumpkin, squash, bell pepper, chili pepper, jalapeño, corn, pea, green bean, broad bean, lentil, chickpea, soybean, broccoli, cauliflower, asparagus, artichoke, okra, mushroom, ginger, turmeric, parsley, cilantro, basil, mint, rosemary, thyme, dill, sage, chive".split(',').map(x => x.trim()),
+
+            "Animals and Pets": "dog, cat, hamster, rabbit, guinea pig, mouse, rat, parrot, canary, goldfish, turtle, lizard, snake, frog, toad, horse, pony, donkey, mule, cow, bull, ox, calf, goat, sheep, lamb, pig, boar, chicken, rooster, hen, chick, duck, goose, turkey, pigeon, dove, sparrow, crow, raven, owl, eagle, hawk, falcon, peacock, flamingo, penguin, seagull, parakeet, macaw, swan, ostrich, emu, bat, dolphin, whale, shark, seal, sea lion, walrus, crab, lobster, shrimp, octopus, squid, jellyfish, starfish, coral, clam, oyster, snail, slug, butterfly, moth, bee, wasp, ant, termite, beetle, ladybug, grasshopper, cricket, flea, bird, cow, bug, ant, fish, shark, fly, mosquito, dragonfly, caterpillar, worm, spider, scorpion, chameleon, iguana, crocodile, alligator, kangaroo, koala, panda, bear, lion, tiger, leopard, cheetah, jaguar, elephant, rhino, hippopotamus, giraffe, zebra, camel, bison, buffalo, deer, reindeer, elk, moose, fox, wolf, coyote, raccoon, squirrel, chipmunk, beaver, otter, hedgehog, skunk, possum, armadillo, anteater, sloth, monkey, chimpanzee, gorilla, baboon, orangutan, lemur, parrotfish, clownfish, swordfish, tuna, salmon, trout, carp, eel, piranha, stingray, seahorse, hermit crab, polar bear, sea turtle".split(',').map(x => x.trim()),
+
+            "Clothes": "shirt, pants, dress, shoes, hat, jacket, socks, skirt, t-shirt, jeans, sweater, coat, shorts, blouse, suit, tie, scarf, gloves, boots, sandals, sneakers, hoodie, vest, uniform, pajamas, underwear, bra, panties, swimsuit, bikini, trunks, robe, belt, wallet, purse, backpack, handbag, sunglasses, watch, jewelry, ring, necklace, bracelet, earrings, cufflinks, bowtie, overalls, leggings, cardigan, tank top, flip flops, high heels, loafers, raincoat, winter coat, leather jacket, denim jacket, windbreaker, tracksuit, bathrobe, slippers, apron, costume, wedding dress, tuxedo, uniform, camouflage, kimono, sari, hijab, turban, beanie, cap, fedora, helmet, mittens, earmuffs, stockings, tights, corset, veil, cape, poncho".split(',').map(x => x.trim()),
+
+            "Singers": "Beyoncé, Taylor Swift, Ed Sheeran, Adele, Drake, Rihanna, Justin Bieber, Ariana Grande, The Weeknd, Billie Eilish, Harry Styles, Dua Lipa, Bruno Mars, Lady Gaga, Shakira, Bad Bunny, J Balvin, Rosalía, Anitta, Luis Fonsi, Maluma, Karol G, Blackpink, BTS, Coldplay, Maroon 5, Imagine Dragons, Queen, The Beatles, Elvis Presley, Michael Jackson, Madonna, Whitney Houston, Mariah Carey, Celine Dion, Frank Sinatra, Elton John, David Bowie, Prince, Bob Marley, Bob Dylan, Johnny Cash, Ray Charles, Stevie Wonder, James Brown, Aretha Franklin, Tina Turner, Janet Jackson, Christina Aguilera, Britney Spears, Jennifer Lopez, Marc Anthony, Ricky Martin, Enrique Iglesias, Julio Iglesias, Roberto Carlos, Caetano Veloso, Gilberto Gil, Maria Bethânia, Gal Costa, Chico Buarque, Milton Nascimento, Elis Regina, Tim Maia, Jorge Ben Jor, Raul Seixas, Cazuza, Legião Urbana, Titãs, Paralamas, Skank, Jota Quest, Charlie Brown, Ivete Sangalo, Claudia Leitte, Ludmilla, Pabllo Vittar, Gloria Groove, Liniker".split(',').map(x => x.trim()),
+
+            "Superheroes": "Superman, Batman, Wonder Woman, Spider-Man, Iron Man, Captain America, Thor, Hulk, Black Widow, Flash, Aquaman, Wolverine, Deadpool, Captain Marvel, Black Panther, Doctor Strange, Ant-Man, Wasp, Hawkeye, Green Lantern, Green Arrow, Supergirl, Batgirl, Robin, Nightwing, Catwoman, Harley Quinn, Joker, Lex Luthor, Thanos, Loki, Magneto, Professor X, Jean Grey, Cyclops, Storm, Rogue, Gambit, Beast, Iceman, Human Torch, Invisible Woman, Mr. Fantastic, Thing, Daredevil, Punisher, Blade, Ghost Rider, Hellboy, Spawn, Invincible, Omni-Man, Homelander, Starlight, Queen Maeve, A-Train, The Deep, Black Noir, Translucent, Stormfront, Soldier Boy, Shazam, Blue Beetle, Static Shock, Miles Morales, Gwen Stacy, Miguel O'Hara, Peter Parker, She-Hulk, Matt Murdock, Frank Castle, Peter Quill, Gamora, Rocket, Groot, Drax, Nebula, Mantis, Nick Fury, Killmonger, Shuri, Okoye, Nakia, M'Baku, Erik Killmonger, Red Skull, Ultron, Kang, Galactus, Doctor Doom, Venom, Carnage, Sandman, Doctor Octopus, Green Goblin, Kingpin, Bullseye, Elektra, Jessica Jones, Luke Cage, Iron Fist".split(',').map(x => x.trim()),
+
+            "Book Titles": "The Odyssey, The Iliad, Don Quixote, The Divine Comedy, Hamlet, King Lear, Pride and Prejudice, 1984, Moby-Dick, Crime and Punishment, War and Peace, In Search of Lost Time, Ulysses, The Great Gatsby, One Hundred Years of Solitude, The Trial, The Picture of Dorian Gray, Madame Bovary, To Kill a Mockingbird, The Old Man and the Sea, The Catcher in the Rye, Dom Casmurro, The Devil to Pay in the Backlands, Barren Lives, Captains of the Sand, The Hour of the Star, Blindness, Wuthering Heights, Jane Eyre, Frankenstein, Mrs. Dalloway, The Second Sex, The Song of Achilles, Dune, The Lord of the Rings, The Hitchhiker's Guide to the Galaxy, Brave New World, Fahrenheit 451, The Handmaid's Tale, Animal Farm, One Thousand and One Nights, The Count of Monte Cristo, The Brothers Karamazov, The Stranger, Beloved, Things Fall Apart, Love in the Time of Cholera, The Alchemist".split(',').map(x => x.trim()),
+
+            "Authors": "Homer, Sappho, Virgil, Dante Alighieri, William Shakespeare, Miguel de Cervantes, Jane Austen, Charles Dickens, Charlotte Brontë, Emily Brontë, Anne Brontë, Leo Tolstoy, Fyodor Dostoevsky, Anton Chekhov, Victor Hugo, Gustave Flaubert, Emily Dickinson, Walt Whitman, Edgar Allan Poe, Franz Kafka, James Joyce, Virginia Woolf, Marcel Proust, Ernest Hemingway, William Faulkner, George Orwell, Albert Camus, Gabriel García Márquez, Julio Cortázar, Jorge Luis Borges, Pablo Neruda, Machado de Assis, João Guimarães Rosa, Clarice Lispector, Graciliano Ramos, Jorge Amado, Cecília Meireles, Rachel de Queiroz, José Saramago, Fernando Pessoa, Luís de Camões, Chinua Achebe, Haruki Murakami, Toni Morrison, Philip Roth, J.R.R. Tolkien, Agatha Christie, Mary Shelley, Simone de Beauvoir, Marguerite Yourcenar, Isabel Allende, Ursula K. Le Guin, Margaret Atwood, Sylvia Plath, Lygia Fagundes Telles, George R.R. Martin, Stephen King, James Baldwin, Oscar Wilde, F. Scott Fitzgerald".split(',').map(x => x.trim())
         };
 
         // Game state
@@ -479,6 +522,12 @@
         const quitGameBtn = document.getElementById('quitGameBtn');
         const mainQuitBtn = document.getElementById('mainQuitBtn');
         const rankingList = document.getElementById('rankingList');
+
+        // Audio Elements
+        const correctSound = document.getElementById('correctSound');
+        const jediSound = document.getElementById('jediSound');
+        const levelUpSound = document.getElementById('levelUpSound');
+        const wrongSound = document.getElementById('wrongSound');
 
         // Event Listeners
         startGameBtn.addEventListener('click', startGame);
@@ -544,7 +593,8 @@
         function generateQuestion() {
             const categoryNames = Object.keys(categories);
             const randomCategory = categoryNames[Math.floor(Math.random() * categoryNames.length)];
-            const correctWord = categories[randomCategory][Math.floor(Math.random() * categories[randomCategory].length)];
+            const categoryWords = categories[randomCategory];
+            const correctWord = categoryWords[Math.floor(Math.random() * categoryWords.length)];
 
             // Generate wrong words from other categories
             const wrongWords = [];
@@ -598,11 +648,19 @@
                 gameState.streak++;
                 gameState.correctAnswers++;
 
+                // Play correct sound
+                correctSound.currentTime = 0;
+                correctSound.play().catch(e => console.log('Audio error:', e));
+
                 // Jedi Bonus every 5 correct answers
                 if (gameState.streak % 5 === 0) {
                     points += 100;
                     bonusText = ` +100 Jedi Bonus! ⚡`;
                     feedback.classList.add('jedi-bonus');
+                    
+                    // Play Jedi sound
+                    jediSound.currentTime = 0;
+                    jediSound.play().catch(e => console.log('Audio error:', e));
                 }
 
                 gameState.score += points;
@@ -615,14 +673,20 @@
                     }
                 });
 
-                // Level up every 5 correct answers
-                if (gameState.correctAnswers % 5 === 0) {
+                // Level up every 8 correct answers
+                if (gameState.correctAnswers % 8 === 0) {
                     gameState.level++;
+                    levelUpSound.currentTime = 0;
+                    levelUpSound.play().catch(e => console.log('Audio error:', e));
                 }
             } else {
                 points = -5;
                 gameState.score = Math.max(0, gameState.score + points);
                 gameState.streak = 0;
+                
+                // Play wrong sound
+                wrongSound.currentTime = 0;
+                wrongSound.play().catch(e => console.log('Audio error:', e));
                 
                 feedback.innerHTML = `❌ Incorrect! "${word}" doesn't belong to ${category}<div class="bonus-indicator">${points} points</div>`;
                 feedback.className = 'feedback incorrect-feedback';
@@ -632,7 +696,8 @@
                         btn.classList.add('incorrect');
                     }
                     // Show correct answer
-                    if (categories[category].includes(btn.textContent.toLowerCase())) {
+                    const correctWords = categories[category];
+                    if (correctWords.includes(btn.textContent.toLowerCase())) {
                         btn.classList.add('correct');
                     }
                 });
