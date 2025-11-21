@@ -1649,12 +1649,12 @@
         let timerInterval = null;
         let correctAnswersInPhase = 0;
         let currentQuizData = [];
-        const POINTS_CORRECT = 13;
-        const POINTS_WRONG = -3;
+        const POINTS_CORRECT = 20;
+        const POINTS_WRONG = -4;
         const QUESTIONS_PER_PHASE = 10;
         const CORRECT_ANSWERS_TO_ADVANCE = 7; // Mudança de fase a cada 7 respostas certas
         const TOTAL_PHASES = 5;
-        const DELAY_BETWEEN_QUESTIONS = 1500;
+        const DELAY_BETWEEN_QUESTIONS = 1300;
 
         // Sistema de ranking
         let ranking = JSON.parse(localStorage.getItem('aquilombar-ranking')) || [];
